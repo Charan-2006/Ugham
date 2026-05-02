@@ -1,0 +1,190 @@
+import React, { useMemo, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Line, PointMaterial, Float } from '@react-three/drei';
+import * as THREE from 'three';
+
+const BackgroundElements = ({ color }) => {
+  const signalRef = useRef();
+  
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime();
+    if (signalRef.current) {
+      // C. Mid empty space: 1 floating signal dot (fade in -> slight upward move -> fade out)
+      const cycle = 4; // 4 second cycle
+      const t = (time % cycle) / cycle;
+      const opacity = Math.sin(t * Math.PI) * 0.18;
+      const yOffset = t * 0.5;
+      signalRef.current.material.opacity = opacity;
+      signalRef.current.position.y = 2.4 + yOffset;
+    }
+  });
+
+  return (
+    <group>
+      {/* A. Top-right area: Cluster of 5 dots with 2 connecting lines */}
+      <group position={[5.5, 3.2, -1]}>
+        {[
+          [0, 0, 0], [0.25, 0.15, 0], [-0.15, 0.25, 0], [0.1, -0.25, 0], [-0.2, -0.1, 0]
+        ].map((pos, i) => (
+          <mesh key={i} position={pos}>
+            <sphereGeometry args={[0.025, 8, 8]} />
+            <meshBasicMaterial color={color} transparent opacity={0.15} />
+          </mesh>
+        ))}
+        <Line points={[[0, 0, 0], [0.25, 0.15, 0]]} color={color} lineWidth={0.5} transparent opacity={0.08} />
+        <Line points={[[0, 0, 0], [-0.15, 0.25, 0]]} color={color} lineWidth={0.5} transparent opacity={0.08} />
+      </group>
+
+      {/* B. Bottom-left area: Cluster of 4 dots with 1 connecting line */}
+      <group position={[-5.5, -1.2, -1]}>
+        {[
+          [0, 0, 0], [0.2, 0.2, 0], [-0.15, -0.1, 0], [0.25, -0.05, 0]
+        ].map((pos, i) => (
+          <mesh key={i} position={pos}>
+            <sphereGeometry args={[0.025, 8, 8]} />
+            <meshBasicMaterial color={color} transparent opacity={0.15} />
+          </mesh>
+        ))}
+        <Line points={[[0, 0, 0], [0.2, 0.2, 0]]} color={color} lineWidth={0.5} transparent opacity={0.08} />
+      </group>
+
+      {/* C. Mid empty space signal dot */}
+      <mesh ref={signalRef} position={[0, 2.4, -1]}>
+        <sphereGeometry args={[0.03, 8, 8]} />
+        <meshBasicMaterial color={color} transparent opacity={0} />
+      </mesh>
+    </group>
+  );
+};
+
+const Flow = ({ activeSide }) => {
+  const pointsRef = useRef();
+  const pulseRef = useRef();
+  const nodeLeftRef = useRef();
+  const nodeRightRef = useRef();
+  const particleCount = 30;
+  
+  const curve = useMemo(() => {
+    return new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(-4.4, 0, 0),
+      new THREE.Vector3(0, 2.8, 0),
+      new THREE.Vector3(4.4, 0, 0)
+    );
+  }, []);
+
+  const linePoints = useMemo(() => curve.getPoints(120), [curve]);
+
+  const particles = useMemo(() => {
+    return Array.from({ length: particleCount }).map(() => ({
+      t: Math.random(),
+      speed: 0.0003 + Math.random() * 0.0006,
+      offset: (Math.random() - 0.5) * 0.05
+    }));
+  }, []);
+
+  const posArr = useMemo(() => new Float32Array(particleCount * 3), []);
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime();
+    
+    // 1. Pulse logic
+    if (pulseRef.current) {
+      const pulseSpeed = activeSide === 'left' ? 0.7 : activeSide === 'right' ? 0.5 : 0.3;
+      const pulseT = (time * pulseSpeed) % 1;
+      const pulsePos = curve.getPoint(pulseT);
+      pulseRef.current.position.copy(pulsePos);
+      pulseRef.current.scale.setScalar(activeSide ? 1.3 : 1.0);
+    }
+
+    // 2. Node logic
+    if (nodeLeftRef.current && nodeRightRef.current) {
+      const breathe = Math.sin(time * 2) * 0.1 + 1;
+      nodeLeftRef.current.scale.setScalar(breathe * (activeSide === 'left' ? 1.5 : 1));
+      nodeRightRef.current.scale.setScalar(breathe * (activeSide === 'right' ? 1.5 : 1));
+    }
+
+    // 3. Particle logic
+    particles.forEach((p, i) => {
+      let speedFactor = 1;
+      if (activeSide === 'left') speedFactor = 2.5;
+      if (activeSide === 'right') speedFactor = 2.0;
+      
+      p.t += p.speed * speedFactor;
+      if (p.t > 1) p.t = 0;
+
+      const pos = curve.getPoint(p.t);
+      posArr[i * 3] = pos.x + p.offset;
+      posArr[i * 3 + 1] = pos.y + p.offset;
+      posArr[i * 3 + 2] = pos.z;
+    });
+    pointsRef.current.geometry.attributes.position.needsUpdate = true;
+  });
+
+  const currentColor = useMemo(() => {
+    if (activeSide === 'left') return '#3b16fe'; // Logo Primary
+    if (activeSide === 'right') return '#6366f1'; // Logo Radiant (Indigo/Violet)
+    return '#6d4aff'; // Default Accent
+  }, [activeSide]);
+
+  return (
+    <group position={[0, 0.4, 0]}> {/* Moved UP from -0.5 to 0.4 to align with headings */}
+      {/* Background System */}
+      <BackgroundElements color={currentColor} />
+
+      {/* Depth Gradient */}
+      <mesh position={[0, 1.5, -1.8]}>
+        <planeGeometry args={[18, 12]} />
+        <meshBasicMaterial 
+          transparent 
+          opacity={0.03} 
+          color={currentColor}
+          onBeforeCompile={(shader) => {
+            shader.fragmentShader = shader.fragmentShader.replace(
+              '#include <map_fragment>',
+              'gl_FragColor = vec4(color, opacity * (1.0 - length(vUv - 0.5) * 2.8));'
+            );
+          }}
+        />
+      </mesh>
+
+      {/* Anchor Nodes */}
+      <mesh ref={nodeLeftRef} position={[-4.4, 0, 0]}>
+        <sphereGeometry args={[0.06, 16, 16]} />
+        <meshBasicMaterial color={currentColor} transparent opacity={0.6} />
+      </mesh>
+      <mesh ref={nodeRightRef} position={[4.4, 0, 0]}>
+        <sphereGeometry args={[0.06, 16, 16]} />
+        <meshBasicMaterial color={currentColor} transparent opacity={0.6} />
+      </mesh>
+
+      {/* Main Bridge System */}
+      <Line points={linePoints} color={currentColor} lineWidth={2} transparent opacity={0.25} />
+      <Line points={linePoints} color={currentColor} lineWidth={10} transparent opacity={0.04} />
+      
+      <mesh ref={pulseRef}>
+        <sphereGeometry args={[0.12, 16, 16]} />
+        <meshBasicMaterial color={currentColor} transparent opacity={0.4} blending={THREE.AdditiveBlending} />
+      </mesh>
+
+      <points ref={pointsRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" count={particleCount} array={posArr} itemSize={3} />
+        </bufferGeometry>
+        <PointMaterial transparent color={currentColor} size={0.08} sizeAttenuation={true} depthWrite={false} opacity={0.25} blending={THREE.AdditiveBlending} />
+      </points>
+    </group>
+  );
+};
+
+const FlowConnection = ({ activeSide }) => {
+  return (
+    <div style={{ width: '100%', height: '350px' }}>
+      <Canvas camera={{ position: [0, 0.5, 8], fov: 38 }} dpr={[1, 2]}>
+        <ambientLight intensity={1} />
+        <Flow activeSide={activeSide} />
+      </Canvas>
+    </div>
+  );
+};
+
+export default FlowConnection;
