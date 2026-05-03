@@ -72,6 +72,14 @@ const AlignmentItem = ({ number, text, index, isAnyHovered, setHoveredIdx, hover
 const StructuralAlignmentInterface = () => {
   const [hoveredIdx, setHoveredIdx] = useState(null);
   const containerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  React.useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
   
   const mouseX = useMotionValue(0);
   const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
@@ -80,7 +88,7 @@ const StructuralAlignmentInterface = () => {
   const rightDrift = useTransform(springX, [-0.5, 0.5], [-5, 5]);
 
   const handleMouseMove = (e) => {
-    if (!containerRef.current) return;
+    if (isMobile || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     mouseX.set(x);
@@ -107,68 +115,76 @@ const StructuralAlignmentInterface = () => {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       className="section gpu-accel" 
-      style={{ background: '#ffffff', minHeight: '800px', position: 'relative', overflow: 'hidden', padding: '10rem 0' }}
+      style={{ background: '#ffffff', minHeight: isMobile ? 'auto' : '800px', position: 'relative', overflow: isMobile ? 'visible' : 'hidden', padding: isMobile ? '4rem 0' : '10rem 0' }}
     >
       <div className="container">
         <div
           className="alignment-grid"
-          style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '2rem' }}
+          style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', flexWrap: 'wrap', gap: isMobile ? '3rem' : '2rem' }}
         >
           {/* Columns 1-5: Why Choose */}
           <motion.div
             className="alignment-col alignment-col--left"
-            style={{ gridColumn: 'span 5', x: leftDrift }}
+            style={{ flex: isMobile ? '1 1 100%' : '1 1 400px', x: isMobile ? 0 : leftDrift }}
           >
             <h2 className="text-radiant alignment-heading" style={{ 
-              fontSize: '3.5rem', 
+              fontSize: isMobile ? '2.5rem' : '3.5rem', 
               fontWeight: 900, 
               letterSpacing: '-0.02em', 
-              marginBottom: '5rem',
+              marginBottom: isMobile ? '2rem' : '5rem',
               lineHeight: 1
             }}>
               WHY CHOOSE UGHAM
             </h2>
-            {whyChoose.map((text, i) => (
-              <AlignmentItem 
-                key={i} 
-                number={`0${i + 1}`} 
-                text={text} 
-                index={i} 
-                isAnyHovered={hoveredIdx !== null}
-                hoveredIdx={hoveredIdx}
-                setHoveredIdx={setHoveredIdx}
-              />
-            ))}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '0.5rem' : '1rem' }}>
+              {whyChoose.map((text, i) => (
+                <AlignmentItem 
+                  key={i} 
+                  number={`0${i + 1}`} 
+                  text={text} 
+                  index={i} 
+                  isAnyHovered={hoveredIdx !== null}
+                  hoveredIdx={hoveredIdx}
+                  setHoveredIdx={setHoveredIdx}
+                  isMobile={isMobile}
+                />
+              ))}
+            </div>
           </motion.div>
 
-          {/* Columns 6-7: Spacer */}
-          <div className="alignment-spacer" style={{ gridColumn: 'span 2' }} />
+          {/* Columns 6-7: Spacer - Desktop Only */}
+          {!isMobile && (
+            <div className="alignment-spacer" style={{ width: '40px' }} />
+          )}
 
           {/* Columns 8-12: What Makes Us Different */}
           <motion.div
             className="alignment-col alignment-col--right"
-            style={{ gridColumn: 'span 5', x: rightDrift }}
+            style={{ flex: isMobile ? '1 1 100%' : '1 1 400px', x: isMobile ? 0 : rightDrift }}
           >
             <h2 className="text-radiant alignment-heading" style={{ 
-              fontSize: '3.5rem', 
+              fontSize: isMobile ? '2.5rem' : '3.5rem', 
               fontWeight: 900, 
               letterSpacing: '-0.02em', 
-              marginBottom: '5rem',
+              marginBottom: isMobile ? '2rem' : '5rem',
               lineHeight: 1
             }}>
               WHAT MAKES US DIFFERENT
             </h2>
-            {whatDifferent.map((text, i) => (
-              <AlignmentItem 
-                key={i} 
-                number={i + 6 === 10 ? '10' : `0${i + 6}`} 
-                text={text} 
-                index={i + 5} 
-                isAnyHovered={hoveredIdx !== null}
-                hoveredIdx={hoveredIdx}
-                setHoveredIdx={setHoveredIdx}
-              />
-            ))}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '0.5rem' : '1rem' }}>
+              {whatDifferent.map((text, i) => (
+                <AlignmentItem 
+                  key={i} 
+                  number={i + 6 === 10 ? '10' : `0${i + 6}`} 
+                  text={text} 
+                  index={i + 5} 
+                  isAnyHovered={hoveredIdx !== null}
+                  hoveredIdx={hoveredIdx}
+                  setHoveredIdx={setHoveredIdx}
+                  isMobile={isMobile}
+                />
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>

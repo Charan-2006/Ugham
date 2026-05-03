@@ -19,6 +19,16 @@ const useMobile = () => {
 
 const About = () => {
   const isMobile = useMobile();
+
+  useEffect(() => {
+    // Force body scroll to be enabled when this page loads
+    document.body.style.overflow = 'unset';
+    document.documentElement.style.overflow = 'unset';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   const values = [
     { title: 'Think Bold', desc: 'Encouraging innovative thinking and breakthrough ideas.', pos: { top: '5%', left: '10%' } },
     { title: 'Market Research', desc: 'Understanding user needs, trends, and real-world problems.', pos: { top: '10%', right: '5%' } },
