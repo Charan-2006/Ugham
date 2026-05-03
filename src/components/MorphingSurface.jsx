@@ -40,14 +40,14 @@ const MorphingSurface = () => {
   return (
     <section className="section" style={{ 
       background: '#ffffff', 
-      minHeight: '80vh', 
+      minHeight: '600px', 
       display: 'flex', 
       flexDirection: 'column', 
       alignItems: 'center', 
       justifyContent: 'center',
       position: 'relative',
       overflow: 'hidden',
-      padding: '10rem 0'
+      padding: '4rem 0'
     }}>
       {/* Background Abstract Waves */}
       <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>

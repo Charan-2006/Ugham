@@ -62,23 +62,23 @@ const Flow = ({ activeSide }) => {
   const pulseRef = useRef();
   const nodeLeftRef = useRef();
   const nodeRightRef = useRef();
-  const particleCount = 30;
+  const particleCount = 60;
   
   const curve = useMemo(() => {
     return new THREE.QuadraticBezierCurve3(
-      new THREE.Vector3(-4.4, 0, 0),
-      new THREE.Vector3(0, 2.8, 0),
-      new THREE.Vector3(4.4, 0, 0)
+      new THREE.Vector3(-4.5, 0, 0),
+      new THREE.Vector3(0, 3.2, 0),
+      new THREE.Vector3(4.5, 0, 0)
     );
   }, []);
 
-  const linePoints = useMemo(() => curve.getPoints(120), [curve]);
+  const linePoints = useMemo(() => curve.getPoints(150), [curve]);
 
   const particles = useMemo(() => {
     return Array.from({ length: particleCount }).map(() => ({
       t: Math.random(),
-      speed: 0.0003 + Math.random() * 0.0006,
-      offset: (Math.random() - 0.5) * 0.05
+      speed: 0.0005 + Math.random() * 0.0008,
+      offset: (Math.random() - 0.5) * 0.1
     }));
   }, []);
 
@@ -89,25 +89,25 @@ const Flow = ({ activeSide }) => {
     
     // 1. Pulse logic
     if (pulseRef.current) {
-      const pulseSpeed = activeSide === 'left' ? 0.7 : activeSide === 'right' ? 0.5 : 0.3;
+      const pulseSpeed = activeSide === 'left' ? 0.8 : activeSide === 'right' ? 0.6 : 0.4;
       const pulseT = (time * pulseSpeed) % 1;
       const pulsePos = curve.getPoint(pulseT);
       pulseRef.current.position.copy(pulsePos);
-      pulseRef.current.scale.setScalar(activeSide ? 1.3 : 1.0);
+      pulseRef.current.scale.setScalar(activeSide ? 1.5 : 1.0);
     }
 
     // 2. Node logic
     if (nodeLeftRef.current && nodeRightRef.current) {
-      const breathe = Math.sin(time * 2) * 0.1 + 1;
-      nodeLeftRef.current.scale.setScalar(breathe * (activeSide === 'left' ? 1.5 : 1));
-      nodeRightRef.current.scale.setScalar(breathe * (activeSide === 'right' ? 1.5 : 1));
+      const breathe = Math.sin(time * 2) * 0.15 + 1;
+      nodeLeftRef.current.scale.setScalar(breathe * (activeSide === 'left' ? 1.8 : 1.2));
+      nodeRightRef.current.scale.setScalar(breathe * (activeSide === 'right' ? 1.8 : 1.2));
     }
 
     // 3. Particle logic
     particles.forEach((p, i) => {
       let speedFactor = 1;
-      if (activeSide === 'left') speedFactor = 2.5;
-      if (activeSide === 'right') speedFactor = 2.0;
+      if (activeSide === 'left') speedFactor = 3.0;
+      if (activeSide === 'right') speedFactor = 2.5;
       
       p.t += p.speed * speedFactor;
       if (p.t > 1) p.t = 0;
@@ -121,56 +121,40 @@ const Flow = ({ activeSide }) => {
   });
 
   const currentColor = useMemo(() => {
-    if (activeSide === 'left') return '#3b16fe'; // Logo Primary
-    if (activeSide === 'right') return '#6366f1'; // Logo Radiant (Indigo/Violet)
-    return '#6d4aff'; // Default Accent
+    if (activeSide === 'left') return '#3b16fe';
+    if (activeSide === 'right') return '#ff3366'; // Changed to brand secondary for more contrast
+    return '#6d4aff';
   }, [activeSide]);
 
   return (
-    <group position={[0, 0.4, 0]}> {/* Moved UP from -0.5 to 0.4 to align with headings */}
-      {/* Background System */}
+    <group position={[0, 0.4, 0]}>
       <BackgroundElements color={currentColor} />
 
-      {/* Depth Gradient */}
-      <mesh position={[0, 1.5, -1.8]}>
-        <planeGeometry args={[18, 12]} />
-        <meshBasicMaterial 
-          transparent 
-          opacity={0.03} 
-          color={currentColor}
-          onBeforeCompile={(shader) => {
-            shader.fragmentShader = shader.fragmentShader.replace(
-              '#include <map_fragment>',
-              'gl_FragColor = vec4(color, opacity * (1.0 - length(vUv - 0.5) * 2.8));'
-            );
-          }}
-        />
+      {/* Anchor Nodes with Glow */}
+      <mesh ref={nodeLeftRef} position={[-4.5, 0, 0]}>
+        <sphereGeometry args={[0.08, 24, 24]} />
+        <meshBasicMaterial color={currentColor} transparent opacity={0.8} />
+      </mesh>
+      <mesh ref={nodeRightRef} position={[4.5, 0, 0]}>
+        <sphereGeometry args={[0.08, 24, 24]} />
+        <meshBasicMaterial color={currentColor} transparent opacity={0.8} />
       </mesh>
 
-      {/* Anchor Nodes */}
-      <mesh ref={nodeLeftRef} position={[-4.4, 0, 0]}>
-        <sphereGeometry args={[0.06, 16, 16]} />
-        <meshBasicMaterial color={currentColor} transparent opacity={0.6} />
-      </mesh>
-      <mesh ref={nodeRightRef} position={[4.4, 0, 0]}>
-        <sphereGeometry args={[0.06, 16, 16]} />
-        <meshBasicMaterial color={currentColor} transparent opacity={0.6} />
-      </mesh>
-
-      {/* Main Bridge System */}
-      <Line points={linePoints} color={currentColor} lineWidth={2} transparent opacity={0.25} />
-      <Line points={linePoints} color={currentColor} lineWidth={10} transparent opacity={0.04} />
+      {/* Main Bridge System - Multi-layered glow */}
+      <Line points={linePoints} color={currentColor} lineWidth={1.5} transparent opacity={0.4} />
+      <Line points={linePoints} color={currentColor} lineWidth={8} transparent opacity={0.1} />
+      <Line points={linePoints} color={currentColor} lineWidth={25} transparent opacity={0.02} />
       
       <mesh ref={pulseRef}>
-        <sphereGeometry args={[0.12, 16, 16]} />
-        <meshBasicMaterial color={currentColor} transparent opacity={0.4} blending={THREE.AdditiveBlending} />
+        <sphereGeometry args={[0.15, 24, 24]} />
+        <meshBasicMaterial color={currentColor} transparent opacity={0.6} blending={THREE.AdditiveBlending} />
       </mesh>
 
       <points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" count={particleCount} array={posArr} itemSize={3} />
         </bufferGeometry>
-        <PointMaterial transparent color={currentColor} size={0.08} sizeAttenuation={true} depthWrite={false} opacity={0.25} blending={THREE.AdditiveBlending} />
+        <PointMaterial transparent color={currentColor} size={0.12} sizeAttenuation={true} depthWrite={false} opacity={0.4} blending={THREE.AdditiveBlending} />
       </points>
     </group>
   );
@@ -178,8 +162,8 @@ const Flow = ({ activeSide }) => {
 
 const FlowConnection = ({ activeSide }) => {
   return (
-    <div style={{ width: '100%', height: '350px' }}>
-      <Canvas camera={{ position: [0, 0.5, 8], fov: 38 }} dpr={[1, 2]}>
+    <div style={{ width: '100%', height: '400px' }}>
+      <Canvas camera={{ position: [0, 1.2, 8.5], fov: 32 }} dpr={[1, 2]}>
         <ambientLight intensity={1} />
         <Flow activeSide={activeSide} />
       </Canvas>

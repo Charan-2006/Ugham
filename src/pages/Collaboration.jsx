@@ -1,6 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import AnimatedSection from '../components/AnimatedSection';
+import ArchitecturalFloatingPanels from '../components/ArchitecturalFloatingPanels';
+import WhyPartnerParallax from '../components/WhyPartnerParallax';
+import PartnerHoneycombGrid from '../components/PartnerHoneycombGrid';
+import InnovationClubBanner from '../components/InnovationClubBanner';
 
 const Collaboration = () => {
   const whoCanCollab = [
@@ -31,101 +35,59 @@ const Collaboration = () => {
 
   return (
     <div style={{ paddingTop: '100px' }}>
-      {/* Hero */}
-      <section className="section text-center">
-        <div className="container">
-          <p className="section-label">COLLABORATION OPPORTUNITIES</p>
-          <h1 className="text-radiant" style={{ maxWidth: '900px', margin: '0 auto 1.5rem' }}>
-            INNOVATION GROWS THROUGH COLLABORATION
-          </h1>
-          <p style={{ maxWidth: '800px', margin: '0 auto', fontSize: '1.25rem', color: 'var(--text-muted)' }}>
+      {/* Hero: Innovation Grows Through Collaboration */}
+      <section className="section gpu-accel" style={{ 
+        padding: '120px 0', 
+        background: 'radial-gradient(circle at 10% 20%, rgba(120, 80, 255, 0.05), transparent 50%)'
+      }}>
+        <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <span className="section-label">COLLABORATION OPPORTUNITIES</span>
+            <h1 className="text-radiant" style={{ 
+              maxWidth: '900px', 
+              textAlign: 'left', 
+              margin: '0 0 32px 0',
+              lineHeight: 1.1 
+            }}>
+              INNOVATION GROWS<br />THROUGH COLLABORATION
+            </h1>
+          </motion.div>
+
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            style={{ 
+              maxWidth: '620px', 
+              textAlign: 'left', 
+              fontSize: '1.125rem', 
+              color: 'var(--text-muted)', 
+              lineHeight: 1.7,
+              margin: 0
+            }}
+          >
             We partner with institutions, industry leaders, incubators, investors, and experts to empower students to learn, build, and grow into impactful innovators.
-          </p>
+          </motion.p>
         </div>
       </section>
 
-      {/* Who Can Collaborate (List Layout) */}
-      <AnimatedSection className="section--bg-light">
-        <div className="container" style={{ display: 'flex', flexWrap: 'wrap', gap: '4rem', alignItems: 'center' }}>
-          <div style={{ flex: '1 1 400px' }}>
-            <span className="section-label">NETWORK</span>
-            <h2 className="text-radiant" style={{ marginBottom: '2rem' }}>WHO CAN COLLABORATE WITH US</h2>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {whoCanCollab.map((item, i) => (
-                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '1.125rem', fontWeight: 500 }}>
-                  <div style={{ width: '12px', height: '12px', background: 'var(--primary)', borderRadius: '2px' }} />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div style={{ flex: '1 1 400px' }}>
-             <img src="/assets/img/service/1.jpg" alt="Collaboration" style={{ borderRadius: '20px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }} onError={(e) => e.target.style.display='none'} />
-          </div>
-        </div>
-      </AnimatedSection>
+      {/* Who Can Collaborate (Architectural Floating Panels) */}
+      <ArchitecturalFloatingPanels />
 
-      {/* Why Partner (Zig-Zag) */}
-      <AnimatedSection className="section">
-        <div className="container">
-          <div className="section-header text-center" style={{ margin: '0 auto 4rem' }}>
-            <span className="section-label">VALUE PROPOSITION</span>
-            <h2 className="text-radiant">WHY PARTNER WITH UGHAM</h2>
-            <p>Partnering with Ugham gives you access to a fast-growing student innovation ecosystem.</p>
-          </div>
-          
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-            {whyPartner.map((reason, i) => (
-              <motion.div key={i} whileHover={{ y: -5 }} className="glass-card" style={{ borderTop: '4px solid var(--accent)' }}>
-                <p style={{ margin: 0, fontSize: '1.125rem', fontWeight: 600 }}>{reason}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </AnimatedSection>
+      {/* Why Partner (Parallax Grid) */}
+      <WhyPartnerParallax />
 
-      {/* Our Partners (Honeycomb Grid) */}
-      <AnimatedSection className="section--bg-light">
-        <div className="container text-center">
-          <div className="section-header" style={{ margin: '0 auto 4rem' }}>
-            <span className="section-label">CATEGORIES</span>
-            <h2 className="text-radiant">OUR PARTNERS</h2>
-          </div>
+      {/* Our Partners (Refined Honeycomb Grid) */}
+      <PartnerHoneycombGrid />
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px', marginTop: '2rem' }}>
-            {partners.map((partner, index) => (
-              <motion.div
-                key={index} initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.05, backgroundColor: 'var(--primary)', color: 'white' }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                style={{
-                  width: '280px', height: '300px',
-                  clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-                  background: 'var(--white)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  textAlign: 'center', padding: '2rem', cursor: 'pointer', margin: '-30px 10px', position: 'relative'
-                }}
-                className="honeycomb-cell"
-              >
-                <div style={{ position: 'absolute', inset: '2px', zIndex: -1, background: 'var(--white)', clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }} />
-                <h3 style={{ color: 'inherit', marginBottom: '1rem', transition: 'color 0.3s' }}>{partner.title}</h3>
-                <p style={{ color: 'inherit', fontSize: '0.875rem', transition: 'color 0.3s' }}>{partner.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </AnimatedSection>
-
-      {/* Institution Partners CTA */}
-      <AnimatedSection className="section" style={{ background: 'linear-gradient(135deg, #0a0f1d, #1a1b4b)', color: 'white' }}>
-        <div className="container text-center">
-          <h2 style={{ color: 'white', marginBottom: '2rem', fontSize: '2.5rem' }}>INSTITUTION PARTNERS</h2>
-          <h3 style={{ color: 'var(--accent)', marginBottom: '1rem' }}>(Ugham Innovation Club)</h3>
-          <p style={{ maxWidth: '800px', margin: '0 auto 3rem', fontSize: '1.25rem', color: 'rgba(255,255,255,0.8)' }}>
-            We partner with institutions to establish the Ugham Innovation Club, creating an on-campus ecosystem where students learn, build, and grow by turning ideas into real-world innovations and ventures.
-          </p>
-          <a href="/contact" className="btn btn-primary" style={{ padding: '1rem 3rem', fontSize: '1.125rem' }}>Start a Club at Your Institution</a>
-        </div>
-      </AnimatedSection>
+      {/* Innovation Club (Premium Banner) */}
+      <InnovationClubBanner />
     </div>
   );
 };

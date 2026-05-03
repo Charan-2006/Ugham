@@ -117,11 +117,11 @@ const Home = () => {
         whileInView="show"
         viewport={{ once: true, margin: "-100px" }}
         style={{ 
-          minHeight: '100vh', 
+          minHeight: '800px', 
           display: 'flex', 
           flexDirection: 'column', 
           justifyContent: 'space-between', 
-          padding: '120px 0 0 0', 
+          padding: '80px 0 0 0', 
           overflow: 'hidden', 
           position: 'relative',
           background: 'var(--bg-body)'
@@ -205,8 +205,10 @@ const Home = () => {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-100px" }}
-        style={{ padding: '8rem 0', position: 'relative', overflow: 'hidden' }}
+        style={{ padding: '5rem 0 3rem 0', position: 'relative', overflow: 'hidden' }}
       >
+        {/* Subtle Section Grid */}
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0.03, pointerEvents: 'none', backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
         <div className="container">
           <div className="text-center" style={{ marginBottom: '2.5rem' }}>
             <motion.span variants={fadeUp} className="section-label" style={{ marginBottom: '0.5rem' }}>WHY US</motion.span>
@@ -223,20 +225,25 @@ const Home = () => {
               onMouseLeave={() => setActiveSide(null)}
               style={{ flex: 1, textAlign: 'right', cursor: 'default' }}
             >
-              <h3 style={{ 
-                color: activeSide === 'left' ? 'var(--primary)' : 'var(--text)', 
-                marginBottom: '1rem', 
-                textTransform: 'uppercase', 
-                fontSize: '1.5rem',
-                transition: 'color 0.4s ease'
-              }}>
-                Beyond Imagination
-              </h3>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '1rem', marginBottom: '1rem' }}>
+                <h3 style={{ 
+                  color: activeSide === 'left' ? 'var(--primary)' : 'var(--text)', 
+                  margin: 0, 
+                  textTransform: 'uppercase', 
+                  fontSize: '1.25rem',
+                  transition: 'color 0.4s ease'
+                }}>
+                  Beyond Imagination
+                </h3>
+                <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: activeSide === 'left' ? 'var(--primary)' : 'var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.4s ease', color: activeSide === 'left' ? 'white' : 'var(--text-muted)' }}>
+                  <Lightbulb size={20} />
+                </div>
+              </div>
               <p style={{ 
-                fontSize: '1.125rem', 
+                fontSize: '1rem', 
                 color: 'var(--text-muted)', 
                 lineHeight: 1.6,
-                maxWidth: '420px',
+                maxWidth: '380px',
                 marginLeft: 'auto'
               }}>
                 Most ideas never move beyond imagination. Ugham bridges that gap by providing the right ecosystem.
@@ -255,20 +262,25 @@ const Home = () => {
               onMouseLeave={() => setActiveSide(null)}
               style={{ flex: 1, textAlign: 'left', cursor: 'default' }}
             >
-              <h3 style={{ 
-                color: activeSide === 'right' ? '#6366f1' : 'var(--text)', 
-                marginBottom: '1rem', 
-                textTransform: 'uppercase', 
-                fontSize: '1.5rem',
-                transition: 'color 0.4s ease'
-              }}>
-                Ecosystem & Mentorship
-              </h3>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: activeSide === 'right' ? 'var(--accent)' : 'var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.4s ease', color: activeSide === 'right' ? 'white' : 'var(--text-muted)' }}>
+                  <CheckCircle2 size={20} />
+                </div>
+                <h3 style={{ 
+                  color: activeSide === 'right' ? 'var(--accent)' : 'var(--text)', 
+                  margin: 0, 
+                  textTransform: 'uppercase', 
+                  fontSize: '1.25rem',
+                  transition: 'color 0.4s ease'
+                }}>
+                  Ecosystem & Mentorship
+                </h3>
+              </div>
               <p style={{ 
-                fontSize: '1.125rem', 
+                fontSize: '1rem', 
                 color: 'var(--text-muted)', 
                 lineHeight: 1.6,
-                maxWidth: '420px'
+                maxWidth: '380px'
               }}>
                 We provide the resources, mentorship, and opportunities to turn ideas into impactful innovations.
               </p>

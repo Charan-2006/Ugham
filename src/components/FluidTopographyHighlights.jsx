@@ -58,39 +58,52 @@ const FluidTopographyHighlights = () => {
   ];
 
   return (
-    <section className="section" style={{ position: 'relative', height: '1000px', background: '#ffffff', overflow: 'hidden' }}>
-      {/* Background Mesh Floor (Very subtle) */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.03 }}>
-        <Canvas camera={{ position: [0, 0, 10], fov: 45 }}>
+    <section className="section gpu-accel" style={{ position: 'relative', minHeight: '800px', background: '#ffffff', overflow: 'hidden' }}>
+      {/* Background Mesh Floor */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.03, pointerEvents: 'none' }}>
+        <Canvas camera={{ position: [0, 0, 10], fov: 45 }} gl={{ powerPreference: 'low-power' }}>
           <mesh rotation={[-Math.PI / 3, 0, 0]}>
-            <planeGeometry args={[30, 30, 40, 40]} />
+            <planeGeometry args={[30, 30, 20, 20]} />
             <meshStandardMaterial wireframe color="#3b16fe" />
           </mesh>
         </Canvas>
       </div>
 
       <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-        <div className="section-header text-center" style={{ marginBottom: '6rem' }}>
+        <div className="section-header text-center" style={{ marginBottom: '4rem' }}>
           <span className="section-label">THE CLUB</span>
-          <h2 className="text-radiant" style={{ fontSize: '3.5rem', fontWeight: 900 }}>INNOVATION HIGHLIGHTS</h2>
+          <h2 className="text-radiant" style={{ fontSize: 'clamp(2.5rem, 6vw, 3.5rem)', fontWeight: 900 }}>INNOVATION HIGHLIGHTS</h2>
         </div>
 
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(2, 1fr)', 
-          gap: '4rem',
-          maxWidth: '1000px',
-          margin: '0 auto',
-          position: 'relative'
-        }}>
+        <style>{`
+          .highlights-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+          }
+          @media (min-width: 768px) {
+            .highlights-grid {
+              grid-template-columns: 1fr 1fr;
+              gap: 4rem;
+            }
+          }
+        `}</style>
+
+        <div className="highlights-grid">
           {highlights.map((item, i) => (
             <motion.div
               key={i}
               onMouseEnter={() => setHoveredIdx(i)}
               onMouseLeave={() => setHoveredIdx(null)}
-              whileHover={{ y: -10 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
               style={{ 
-                padding: '3rem',
+                padding: '2rem',
                 background: 'rgba(255, 255, 255, 0.6)',
                 backdropFilter: 'blur(20px)',
                 borderRadius: '32px',
@@ -100,37 +113,28 @@ const FluidTopographyHighlights = () => {
                 cursor: 'default',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '1rem',
-                textAlign: i % 2 === 0 ? 'left' : 'right'
+                gap: '0.5rem',
+                textAlign: 'left'
               }}
             >
-              <div style={{ 
-                fontSize: '0.75rem', 
-                fontWeight: 800, 
-                color: 'var(--primary)', 
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase'
-              }}>
-                0{i + 1}
+              {/* Desktop alignment override */}
+              <style>{`
+                @media (min-width: 768px) {
+                  .highlight-card-${i} { text-align: ${i % 2 === 0 ? 'left' : 'right'} !important; }
+                  .highlight-desc-${i} { margin-left: ${i % 2 === 0 ? '0' : 'auto'} !important; }
+                }
+              `}</style>
+              <div className={`highlight-card-${i}`}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                  0{i + 1}
+                </div>
+                <h3 style={{ fontSize: '1.5rem', fontWeight: 800, margin: 0, color: 'var(--text)' }}>
+                  {item.title}
+                </h3>
+                <p className={`highlight-desc-${i}`} style={{ fontSize: '1rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: '1rem 0 0', maxWidth: '300px' }}>
+                  {item.desc}
+                </p>
               </div>
-              <h3 style={{ 
-                fontSize: '1.75rem', 
-                fontWeight: 800, 
-                margin: 0,
-                color: 'var(--text)'
-              }}>
-                {item.title}
-              </h3>
-              <p style={{ 
-                fontSize: '1rem', 
-                color: 'var(--text-muted)', 
-                lineHeight: 1.6,
-                margin: 0,
-                maxWidth: '300px',
-                marginLeft: i % 2 === 0 ? '0' : 'auto'
-              }}>
-                {item.desc}
-              </p>
             </motion.div>
           ))}
 
@@ -140,10 +144,11 @@ const FluidTopographyHighlights = () => {
             top: '50%', 
             left: '50%', 
             transform: 'translate(-50%, -50%)',
-            width: '400px',
+            width: '100%',
             height: '400px',
             pointerEvents: 'none',
-            zIndex: -1
+            zIndex: -1,
+            opacity: 0.5
           }}>
             <Canvas camera={{ position: [0, 0, 5] }}>
               <ambientLight intensity={1} />

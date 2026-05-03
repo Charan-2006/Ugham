@@ -1,6 +1,9 @@
 import React, { useRef } from 'react';
 import { motion, useScroll } from 'framer-motion';
 import AnimatedSection from '../components/AnimatedSection';
+import CoreOfferings3DGrid from '../components/CoreOfferings3DGrid';
+import SaaSTimeline from '../components/SaaSTimeline';
+import KineticLightPathInterface from '../components/KineticLightPathInterface';
 
 const WhatWeDo = () => {
   const containerRef = useRef(null);
@@ -31,92 +34,38 @@ const WhatWeDo = () => {
 
   return (
     <div style={{ paddingTop: '100px' }}>
-      {/* Hero */}
-      <section className="section text-center">
+      {/* Hero: Large-Scale Premium Editorial */}
+      <section className="section gpu-accel" style={{ background: 'radial-gradient(circle at 20% 30%, rgba(120, 80, 255, 0.05), transparent 60%)' }}>
         <div className="container">
-          <p className="section-label">WHAT WE DO</p>
-          <h1 className="text-radiant" style={{ maxWidth: '800px', margin: '0 auto 1.5rem' }}>
-            TURNING IDEAS INTO REALITY
-          </h1>
-          <p style={{ maxWidth: '800px', margin: '0 auto', fontSize: '1.25rem', color: 'var(--text-muted)' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <span className="section-label">WHAT WE DO</span>
+            <h1 className="text-radiant">
+              TURNING IDEAS<br />INTO REALITY
+            </h1>
+          </motion.div>
+
+          <motion.p 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
             At Ugham, we turn ideas into reality. As an innovation studio, we work closely with students to help them learn, build, and grow into creators of meaningful solutions. From the earliest spark of an idea to building scalable ventures, we guide every step of the journey.
-          </p>
+          </motion.p>
         </div>
       </section>
 
-      {/* Services / Core Offering (Bento Grid 2.0) */}
-      <AnimatedSection className="section--bg-light">
-        <div className="container">
-          <div className="section-header text-center" style={{ margin: '0 auto 4rem' }}>
-            <span className="section-label">SERVICES</span>
-            <h2 className="text-radiant">CORE OFFERINGS</h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-            {services.map((srv, i) => (
-              <motion.div key={i} whileHover={{ scale: 1.02 }} className="glass-card" style={{ borderLeft: '4px solid var(--primary)' }}>
-                <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'var(--primary)' }}>{srv.title}</h3>
-                <p style={{ fontSize: '1.125rem', color: 'var(--text-muted)' }}>{srv.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </AnimatedSection>
+      {/* Services / Core Offering (3D Interactive Grid) */}
+      <CoreOfferings3DGrid />
 
-      {/* Roadmap (SVG Timeline) */}
-      <AnimatedSection className="section">
-        <div className="container" ref={containerRef} style={{ position: 'relative', padding: '4rem 0' }}>
-          <div className="section-header text-center" style={{ margin: '0 auto 4rem' }}>
-            <span className="section-label">THE UGHAM ROADMAP</span>
-            <h2 className="text-radiant">LEARN → BUILD → GROW</h2>
-          </div>
+      {/* Roadmap (SaaS Premium Timeline) */}
+      <SaaSTimeline />
 
-          <div style={{ position: 'relative', maxWidth: '800px', margin: '0 auto' }}>
-            {/* SVG Path */}
-            <div style={{ position: 'absolute', left: '40px', top: 0, bottom: 0, width: '4px', background: 'var(--border)' }}>
-              <motion.div 
-                style={{ width: '100%', background: 'linear-gradient(to bottom, #FF3366, #3b16fe)', transformOrigin: 'top', scaleY: scrollYProgress }} 
-              />
-            </div>
-
-            {/* Steps */}
-            {steps.map((step, index) => (
-              <motion.div 
-                key={index} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ margin: "-100px" }} transition={{ duration: 0.5, delay: index * 0.2 }}
-                style={{ display: 'flex', alignItems: 'flex-start', marginBottom: '6rem', position: 'relative', zIndex: 2 }}
-              >
-                <motion.div 
-                  initial={{ scale: 0 }} whileInView={{ scale: 1 }} transition={{ delay: index * 0.2 + 0.3 }}
-                  style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', boxShadow: '0 10px 30px rgba(59,22,254,0.15)', border: '4px solid var(--white)', flexShrink: 0 }}
-                >
-                  {step.num}
-                </motion.div>
-                <div className="glass-card" style={{ marginLeft: '3rem', flex: 1 }}>
-                  <h3 style={{ color: 'var(--primary)', marginBottom: '0.5rem' }}>{step.title}</h3>
-                  <p style={{ margin: 0, fontSize: '1.125rem' }}>{step.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </AnimatedSection>
-
-      {/* Who We Serve (Stacking Cards) */}
-      <AnimatedSection className="section--bg-light">
-        <div className="container text-center">
-          <span className="section-label">TARGET AUDIENCE</span>
-          <h2 className="text-radiant" style={{ marginBottom: '4rem' }}>WHO WE SERVE</h2>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2rem' }}>
-            {whoWeServe.map((serve, i) => (
-              <motion.div 
-                key={i} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                style={{ background: 'var(--primary)', color: 'white', padding: '2rem', borderRadius: '20px', width: '300px', fontSize: '1.25rem', fontWeight: 600 }}
-              >
-                {serve}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </AnimatedSection>
+      {/* Who We Serve (Kinetic Light-Path Interface) */}
+      <KineticLightPathInterface />
     </div>
   );
 };

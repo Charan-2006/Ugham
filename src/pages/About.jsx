@@ -1,6 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import AnimatedSection from '../components/AnimatedSection';
+import KineticArchitecturalGrid from '../components/KineticArchitecturalGrid';
+import VisionMissionArchitectural from '../components/VisionMissionArchitectural';
+import StructuralAlignmentInterface from '../components/StructuralAlignmentInterface';
+import CoreValuesEcosystem from '../components/CoreValuesEcosystem';
 
 const About = () => {
   const values = [
@@ -22,140 +26,112 @@ const About = () => {
   return (
     <div style={{ paddingTop: '100px' }}>
       {/* 1. Who We Are */}
-      <section className="section text-center">
+      <section className="section gpu-accel" style={{ position: 'relative', overflow: 'hidden', padding: '8rem 0 6rem' }}>
+        {/* Subtle Background Accent */}
+        <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(59, 22, 254, 0.03) 0%, transparent 70%)', borderRadius: '50%', pointerEvents: 'none' }} />
+        
         <div className="container">
-          <p className="section-label">WHO WE ARE</p>
-          <h1 className="text-radiant" style={{ maxWidth: '900px', margin: '0 auto 1.5rem' }}>
-            EMPOWERING STUDENTS TO TURN IDEAS INTO REAL-WORLD SOLUTIONS
-          </h1>
-          <p style={{ maxWidth: '700px', margin: '0 auto', fontSize: '1.25rem', color: 'var(--text-muted)' }}>
-            Ugham is an innovation studio dedicated to empowering students. We are a platform where creativity meets execution by helping young innovators move beyond concepts and build impactful, scalable innovations.
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            style={{ textAlign: 'left' }}
+          >
+            <span className="section-label" style={{ marginBottom: '2rem', display: 'block' }}>WHO WE ARE</span>
+            
+            <h1 className="text-radiant" style={{ 
+              maxWidth: '900px', 
+              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+              lineHeight: 1.05,
+              fontWeight: 900,
+              letterSpacing: '-0.03em',
+              marginBottom: '3.5rem',
+              textTransform: 'uppercase'
+            }}>
+              Empowering students<br />
+              to turn ideas into<br />
+              real-world solutions
+            </h1>
+
+            <p style={{ 
+              maxWidth: '520px', 
+              fontSize: '1.125rem', 
+              color: 'var(--text-muted)', 
+              lineHeight: 1.8,
+              fontWeight: 400,
+              opacity: 0.9
+            }}>
+              Ugham is an innovation studio dedicated to empowering students. We are a platform where creativity meets execution by helping young innovators move beyond concepts and build impactful, scalable innovations.
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* 2. What We Do (Glass Cards) */}
-      <AnimatedSection className="section--bg-light">
-        <div className="container">
-          <div className="section-header text-center" style={{ margin: '0 auto 4rem' }}>
-            <span className="section-label">WHAT WE DO</span>
-            <h2 className="text-radiant">THE INTERSECTION OF LEARNING & BUILDING</h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
-            {whatWeDo.map((item, i) => (
-              <motion.div key={i} whileHover={{ y: -10 }} className="glass-card" style={{ textAlign: 'center' }}>
-                <h3 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>{item.title}</h3>
-                <p>{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </AnimatedSection>
+      {/* 2. What We Do (Kinetic Architectural Grid) */}
+      <KineticArchitecturalGrid />
 
-      {/* 3. Vision & Mission (Big Typography Reveal) */}
-      <AnimatedSection className="section">
-        <div className="container">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4rem' }}>
-            <div style={{ flex: '1 1 400px' }}>
-              <span className="section-label">OUR VISION</span>
-              <h2 style={{ fontSize: '2.5rem', lineHeight: 1.2 }}>
-                To build a generation of innovators who create meaningful, scalable solutions for real-world challenges.
-              </h2>
-            </div>
-            <div style={{ flex: '1 1 400px', borderLeft: '4px solid var(--primary)', paddingLeft: '2rem' }}>
-              <span className="section-label">OUR MISSION</span>
-              <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', lineHeight: 1.8 }}>
-                Create 100 student-led innovations by 2030 and scale them into impactful ventures by enabling students to learn, build, and grow through the right ecosystem, mentorship, and opportunities.
-              </p>
-            </div>
-          </div>
-        </div>
-      </AnimatedSection>
+      {/* 3. Vision & Mission (Split Monolith Architectural) */}
+      <VisionMissionArchitectural />
 
-      {/* 4. Why Choose Us & What Makes Us Different */}
-      <AnimatedSection className="section--bg-light">
-        <div className="container" style={{ display: 'flex', flexWrap: 'wrap', gap: '4rem' }}>
-          <div style={{ flex: '1 1 400px', background: 'var(--white)', padding: '3rem', borderRadius: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
-            <h2 className="text-radiant" style={{ marginBottom: '1rem' }}>WHY CHOOSE UGHAM</h2>
-            <p style={{ marginBottom: '2rem' }}>Ugham is not just a learning platform, it’s a building ecosystem.</p>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {['Hands-on innovation building', 'Real-world problem solving', 'Access to mentors & industry experts', 'Structured pathway from idea to execution', 'Focus on scalability and impact'].map((point, i) => (
-                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontWeight: 500 }}>
-                  <div style={{ width: '8px', height: '8px', background: 'var(--primary)', borderRadius: '50%' }} /> {point}
-                </li>
-              ))}
-            </ul>
-          </div>
+      {/* 4. Why Choose & Difference (Structural Alignment Interface) */}
+      <StructuralAlignmentInterface />
 
-          <div style={{ flex: '1 1 400px', padding: '3rem' }}>
-            <h2 className="text-radiant" style={{ marginBottom: '1rem' }}>WHAT MAKES US DIFFERENT</h2>
-            <p style={{ marginBottom: '2rem', fontSize: '1.25rem' }}>Most platforms focus on learning, but Ugham focuses on building.</p>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', fontSize: '1.125rem' }}>
-              <li><strong>We build alongside you</strong> – Not just passive guidance.</li>
-              <li><strong>Execution over theory</strong> – Action-biased methodology.</li>
-              <li><strong>Real opportunities</strong> – Mentors, investors, and incubation.</li>
-              <li><strong>The full journey</strong> – Support from idea all the way to venture.</li>
-            </ul>
-          </div>
-        </div>
-      </AnimatedSection>
+      {/* 5. Core Values (3D Interactive Ecosystem) */}
+      <CoreValuesEcosystem />
 
-      {/* 5. Core Values (Orbiting Nodes) */}
-      <AnimatedSection className="section">
-        <div className="container">
-          <div className="section-header text-center" style={{ margin: '0 auto 4rem' }}>
-            <span className="section-label">PRINCIPLES</span>
-            <h2 className="text-radiant">CORE VALUES</h2>
-          </div>
-
-          <div style={{ position: 'relative', height: '700px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <motion.div 
-              animate={{ scale: [1, 1.05, 1], boxShadow: ["0 0 30px rgba(59,22,254,0.2)", "0 0 70px rgba(255,51,102,0.4)", "0 0 30px rgba(59,22,254,0.2)"] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              style={{
-                width: '180px', height: '180px', borderRadius: '50%',
-                background: 'linear-gradient(135deg, #FF3366, #3b16fe)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: 'white', fontSize: '1.25rem', fontWeight: 700, zIndex: 10, textAlign: 'center'
-              }}
-            >
-              OUR FOUNDATION
-            </motion.div>
-
-            {values.map((val, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.1, zIndex: 20 }} transition={{ delay: i * 0.1, type: 'spring' }}
-                style={{
-                  position: 'absolute', width: '220px', padding: '1.5rem',
-                  background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)',
-                  borderRadius: '15px', border: '1px solid var(--border)',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.05)', ...val.pos
-                }}
-              >
-                <h3 style={{ color: 'var(--primary)', marginBottom: '0.5rem', fontSize: '1.125rem' }}>{val.title}</h3>
-                <p style={{ margin: 0, fontSize: '0.875rem' }}>{val.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </AnimatedSection>
-
-      {/* 6. Leadership / Team (3D Tilt Cards) */}
+      {/* 6. Leadership / Team (Premium Team Cards) */}
       <AnimatedSection className="section--bg-light">
         <div className="container text-center">
           <span className="section-label">LEADERSHIP</span>
-          <h2 className="text-radiant" style={{ marginBottom: '4rem' }}>MEET THE TEAM</h2>
+          <h2 className="text-radiant" style={{ marginBottom: '5rem' }}>MEET THE TEAM</h2>
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '3rem' }}>
-            {[1, 2, 3].map((member, i) => (
-              <motion.div key={i} whileHover={{ y: -10 }} style={{ background: 'var(--white)', padding: '2rem', borderRadius: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
-                <div style={{ width: '150px', height: '150px', borderRadius: '50%', background: 'var(--bg-secondary)', margin: '0 auto 1.5rem', overflow: 'hidden' }}>
-                  <img src={`/assets/img/team/team-${member}.jpg`} alt="Team Member" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => e.target.style.display='none'} />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', alignItems: 'stretch' }}>
+            {[
+              { name: 'Leader Name 1', role: 'CEO & Founder', img: '/assets/img/leader1.png' },
+              { name: 'Leader Name 2', role: 'CTO', img: '/assets/img/leader2.png' },
+              { name: 'Leader Name 3', role: 'COO', img: '/assets/img/leader3.png' }
+            ].map((member, i) => (
+              <motion.div 
+                key={i} 
+                whileHover={{ y: -6, boxShadow: '0 16px 40px rgba(0,0,0,0.08)' }} 
+                style={{ 
+                  background: 'var(--white)', 
+                  borderRadius: '16px', 
+                  overflow: 'hidden',
+                  border: '1px solid rgba(0,0,0,0.06)',
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.04)',
+                  transition: 'all 0.3s ease',
+                  textAlign: 'left',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <div style={{ width: '100%', height: '240px', overflow: 'hidden' }}>
+                  <img 
+                    src={member.img} 
+                    alt={member.name} 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                    onError={(e) => {
+                      e.target.style.display='none';
+                      e.target.parentElement.style.background='var(--bg-secondary)';
+                    }} 
+                  />
                 </div>
-                <h3 style={{ marginBottom: '0.5rem' }}>Leader Name {member}</h3>
-                <p style={{ color: 'var(--primary)', fontWeight: 600 }}>Designation</p>
+                <div style={{ padding: '20px', flexGrow: 1 }}>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text)', margin: 0 }}>
+                    {member.name}
+                  </h3>
+                  <p style={{ 
+                    fontSize: '0.9rem', 
+                    color: 'var(--text-muted)', 
+                    marginTop: '12px',
+                    fontWeight: 500,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
+                  }}>
+                    {member.role}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
