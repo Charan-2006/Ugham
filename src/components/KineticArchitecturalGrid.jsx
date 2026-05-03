@@ -60,8 +60,20 @@ const BackgroundMesh = ({ activeIdx }) => {
   );
 };
 
+const useMobile = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+  React.useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  return isMobile;
+};
+
 const KineticArchitecturalGrid = () => {
   const [hoverIdx, setHoverIdx] = useState(null);
+  const isMobile = useMobile();
 
   const modules = [
     { title: 'Education Empowerment', desc: 'Developing an innovation and problem-solving skills through structured learning paths.' },
@@ -71,18 +83,20 @@ const KineticArchitecturalGrid = () => {
   ];
 
   return (
-    <section className="section gpu-accel" style={{ background: '#ffffff', minHeight: '800px', position: 'relative', overflow: 'hidden', padding: '10rem 0' }}>
+    <section className="section gpu-accel" style={{ background: '#ffffff', minHeight: isMobile ? 'auto' : '800px', position: 'relative', overflow: isMobile ? 'visible' : 'hidden', padding: isMobile ? '4rem 0' : '10rem 0' }}>
       
-      {/* 3D Kinetic Background */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }}>
-        <Canvas>
-          <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={40} />
-          <ambientLight intensity={1} />
-          <VectorThreads activeIdx={hoverIdx} />
-          <BackgroundMesh activeIdx={hoverIdx} />
-          <Sparkles count={40} scale={10} size={1} speed={0.2} color="#3b16fe" opacity={0.05} />
-        </Canvas>
-      </div>
+      {/* 3D Kinetic Background - Desktop Only */}
+      {!isMobile && (
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }}>
+          <Canvas>
+            <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={40} />
+            <ambientLight intensity={1} />
+            <VectorThreads activeIdx={hoverIdx} />
+            <BackgroundMesh activeIdx={hoverIdx} />
+            <Sparkles count={40} scale={10} size={1} speed={0.2} color="#3b16fe" opacity={0.05} />
+          </Canvas>
+        </div>
+      )}
 
       <div className="container" style={{ position: 'relative', zIndex: 10 }}>
         <div className="section-header text-center" style={{ marginBottom: '6rem' }}>
