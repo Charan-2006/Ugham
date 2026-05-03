@@ -53,51 +53,65 @@ const TimelineNode = ({ index, title, desc, isRight, isMobile }) => {
   return (
     <div className="timeline-node-wrapper" style={{ 
       display: 'flex', 
-      justifyContent: isMobile ? 'flex-end' : (isRight ? 'flex-start' : 'flex-end'), 
-      alignItems: 'center', 
+      flexDirection: isMobile ? 'column' : 'row',
+      justifyContent: isMobile ? 'flex-start' : (isRight ? 'flex-start' : 'flex-end'), 
+      alignItems: isMobile ? 'flex-start' : 'center', 
       width: '100%', 
-      marginBottom: isMobile ? '80px' : '120px',
+      marginBottom: isMobile ? '60px' : '120px',
       position: 'relative',
       boxSizing: 'border-box'
     }}>
+      {/* numeric indicator - Above card on mobile */}
+      {isMobile && (
+        <div style={{ 
+          marginBottom: '1rem',
+          marginLeft: '0.5rem',
+          transform: 'scale(0.8)',
+          transformOrigin: 'left center'
+        }}>
+          <TechnicalIcon index={index} />
+        </div>
+      )}
+
       {/* Content Card */}
       <motion.div
         className="timeline-card"
-        initial={{ opacity: 0, x: isMobile ? 30 : (isRight ? 50 : -50) }}
+        initial={{ opacity: 0, x: isMobile ? 20 : (isRight ? 50 : -50) }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         style={{ 
-          width: isMobile ? 'calc(100% - 70px)' : '42%', 
-          marginLeft: isMobile ? '70px' : '0',
-          textAlign: isMobile ? 'left' : (isRight ? 'left' : 'right'),
-          padding: isMobile ? '1.5rem 1.25rem' : '2.5rem',
+          width: isMobile ? '100%' : '42%', 
+          marginLeft: '0',
+          textAlign: 'left',
+          padding: isMobile ? '1.5rem' : '2.5rem',
           background: '#ffffff',
           borderRadius: '12px',
           boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
-          borderLeft: isMobile ? `4px solid ${accentColor}` : (isRight ? `4px solid ${accentColor}` : 'none'),
-          borderRight: isMobile ? 'none' : (!isRight ? `4px solid ${accentColor}` : 'none'),
+          borderLeft: `4px solid ${accentColor}`,
           boxSizing: 'border-box',
           position: 'relative',
           zIndex: 1
         }}
       >
         <h3 style={{ fontSize: isMobile ? '1.25rem' : '1.75rem', fontWeight: 900, marginBottom: '0.75rem', color: '#0f172a', whiteSpace: 'normal', wordBreak: 'break-word' }}>{title}</h3>
-        <p style={{ color: '#4A4A4A', lineHeight: 1.6, margin: 0, fontSize: isMobile ? '0.9rem' : '1rem', whiteSpace: 'normal', wordBreak: 'break-word' }}>{desc}</p>
+        <p style={{ color: '#4A4A4A', lineHeight: 1.6, margin: 0, fontSize: isMobile ? '0.95rem' : '1rem', whiteSpace: 'normal', wordBreak: 'break-word' }}>{desc}</p>
       </motion.div>
 
-      {/* Center Station */}
-      <div style={{ 
-        position: 'absolute', 
-        left: isMobile ? '20px' : '50%', 
-        transform: isMobile ? 'translateX(-50%) scale(0.6)' : 'translateX(-50%)',
-        background: '#fff', 
-        padding: isMobile ? '0.5rem' : '1rem', 
-        zIndex: 10,
-        borderRadius: '50%'
-      }}>
-        <TechnicalIcon index={index} />
-      </div>
+      {/* Center Station - Desktop Only */}
+      {!isMobile && (
+        <div style={{ 
+          position: 'absolute', 
+          left: '50%', 
+          transform: 'translateX(-50%)',
+          background: '#fff', 
+          padding: '1rem', 
+          zIndex: 10,
+          borderRadius: '50%'
+        }}>
+          <TechnicalIcon index={index} />
+        </div>
+      )}
     </div>
   );
 };
