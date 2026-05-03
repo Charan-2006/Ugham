@@ -24,7 +24,7 @@ const HorizontalMotionTimeline = () => {
   return (
     <section 
       ref={sectionRef}
-      className="section gpu-accel" 
+      className="section gpu-accel hm-timeline-section" 
       style={{ 
         background: '#ffffff', 
         padding: '6rem 0', 
@@ -41,31 +41,31 @@ const HorizontalMotionTimeline = () => {
       }} />
 
       <div className="container">
-        <div className="section-header text-center" style={{ marginBottom: '8rem' }}>
+        <div className="section-header text-center hm-timeline-header" style={{ marginBottom: '8rem' }}>
           <span className="section-label">THE UGHAM ROADMAP</span>
-          <h2 className="text-radiant" style={{ fontSize: '3rem', fontWeight: 900 }}>A JOURNEY OF IMPACT</h2>
+          <h2 className="text-radiant hm-timeline-title" style={{ fontSize: '3rem', fontWeight: 900 }}>A JOURNEY OF IMPACT</h2>
         </div>
 
-        <div style={{ position: 'relative', height: '400px', display: 'flex', alignItems: 'center' }}>
+        <div className="hm-timeline-container" style={{ position: 'relative', height: '400px', display: 'flex', alignItems: 'center' }}>
           
-          {/* Main Horizontal Line */}
-          <div style={{ 
-            position: 'absolute', top: '50%', left: 0, right: 0, height: '1px', 
-            background: 'rgba(0,0,0,0.05)', zIndex: 0 
-          }} />
-          <motion.div style={{ 
-            position: 'absolute', top: '50%', left: 0, right: 0, height: '2px', 
-            background: 'linear-gradient(90deg, #FF3366, #3b16fe)', 
-            scaleX, transformOrigin: 'left',
-            boxShadow: '0 0 20px rgba(59, 22, 254, 0.3)',
-            zIndex: 1 
-          }} />
-
           {/* Nodes & Cards */}
-          <div style={{ 
+          <div className="hm-timeline-wrapper" style={{ 
             display: 'flex', width: '100%', justifyContent: 'space-between', 
             position: 'relative', zIndex: 10 
           }}>
+            {/* Main Horizontal Line */}
+            <div className="hm-timeline-line-bg" style={{ 
+              position: 'absolute', top: '50%', left: 0, right: 0, height: '1px', 
+              background: 'rgba(0,0,0,0.05)', zIndex: 0 
+            }} />
+            <motion.div className="hm-timeline-line-progress" style={{ 
+              position: 'absolute', top: '50%', left: 0, right: 0, height: '2px', 
+              background: 'linear-gradient(90deg, #FF3366, #3b16fe)', 
+              scaleX, transformOrigin: 'left',
+              boxShadow: '0 0 20px rgba(59, 22, 254, 0.3)',
+              zIndex: 1 
+            }} />
+
             {steps.map((step, i) => (
               <TimelineItem key={i} step={step} index={i} total={steps.length} scrollYProgress={scrollYProgress} />
             ))}
@@ -83,13 +83,14 @@ const TimelineItem = ({ step, index, total, scrollYProgress }) => {
   const activeSpring = useSpring(isActive, { stiffness: 100, damping: 30 });
 
   return (
-    <div style={{ 
+    <div className="hm-timeline-item" style={{ 
       width: '30%', display: 'flex', flexDirection: 'column', 
       alignItems: 'center', position: 'relative' 
     }}>
       
       {/* Floating Card ABOVE */}
       <motion.div
+        className="hm-timeline-card"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -108,13 +109,13 @@ const TimelineItem = ({ step, index, total, scrollYProgress }) => {
           cursor: 'default'
         }}
       >
-        <h3 style={{ 
+        <h3 className="hm-timeline-card-title" style={{ 
           fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)', 
           marginBottom: '1rem', letterSpacing: '0.05em' 
         }}>
           {step.title}
         </h3>
-        <p style={{ 
+        <p className="hm-timeline-card-desc" style={{ 
           fontSize: '0.95rem', color: 'var(--text-muted)', 
           lineHeight: 1.6, margin: 0 
         }}>
@@ -124,6 +125,7 @@ const TimelineItem = ({ step, index, total, scrollYProgress }) => {
 
       {/* Node on Axis */}
       <motion.div
+        className="hm-timeline-dot"
         style={{
           width: '24px', height: '24px', borderRadius: '50%',
           background: 'white',

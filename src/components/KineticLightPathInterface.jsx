@@ -81,7 +81,7 @@ const KineticLightPathInterface = () => {
         </div>
 
         {/* Horizontal Drift Interface */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem', position: 'relative' }}>
+        <div className="target-audience-grid" style={{ display: 'grid', gap: '2rem', position: 'relative' }}>
           
           {/* Refractive Glass Strip (Global Accent) */}
           <div style={{ 
@@ -93,6 +93,7 @@ const KineticLightPathInterface = () => {
           {targets.map((target, i) => (
             <motion.div
               key={i}
+              className="target-audience-card"
               onMouseEnter={() => setHoveredIdx(i)}
               onMouseLeave={() => setHoveredIdx(null)}
               style={{

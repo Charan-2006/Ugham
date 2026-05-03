@@ -162,7 +162,7 @@ const Flow = ({ activeSide }) => {
 
 const FlowConnection = ({ activeSide }) => {
   return (
-    <div style={{ width: '100%', height: '400px' }}>
+    <div className="flow-connection-canvas" style={{ width: '100%', height: '400px' }}>
       <Canvas camera={{ position: [0, 1.2, 8.5], fov: 32 }} dpr={[1, 2]}>
         <ambientLight intensity={1} />
         <Flow activeSide={activeSide} />

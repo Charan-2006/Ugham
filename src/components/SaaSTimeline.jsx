@@ -22,12 +22,11 @@ const SaaSTimeline = () => {
   return (
     <section 
       ref={sectionRef}
-      className="section gpu-accel" 
+      className="section gpu-accel hm-timeline-section" 
       style={{ 
         background: '#ffffff', 
         padding: '100px 0', 
         position: 'relative', 
-        overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
@@ -42,44 +41,45 @@ const SaaSTimeline = () => {
       }} />
 
       <div className="container" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div className="section-header text-center" style={{ marginBottom: '280px', textAlign: 'center' }}>
+        <div className="section-header text-center hm-timeline-header" style={{ marginBottom: '280px', textAlign: 'center' }}>
           <span className="section-label" style={{ margin: '0 auto 1.5rem' }}>THE UGHAM ROADMAP</span>
-          <h2 className="text-radiant" style={{ fontSize: '4rem', fontWeight: 900, textAlign: 'center', width: '100%' }}>A JOURNEY OF IMPACT</h2>
+          <h2 className="text-radiant hm-timeline-title" style={{ fontSize: '4rem', fontWeight: 900, textAlign: 'center', width: '100%' }}>A JOURNEY OF IMPACT</h2>
         </div>
 
-        <div style={{ position: 'relative', width: '100%', maxWidth: '1200px', height: '550px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="hm-timeline-container" style={{ position: 'relative', width: '100%', maxWidth: '1200px', height: '550px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           
-          {/* Main Axis Line */}
-          <div style={{ 
-            position: 'absolute', top: '50%', left: 0, right: 0, height: '2px', 
-            background: 'rgba(0,0,0,0.03)', zIndex: 0 
-          }} />
-          
-          <motion.div style={{ 
-            position: 'absolute', top: '50%', left: 0, right: 0, height: '2px', 
-            background: 'linear-gradient(90deg, #FF3366, #3b16fe)', 
-            scaleX, transformOrigin: 'left',
-            boxShadow: '0 0 15px rgba(59, 22, 254, 0.15)',
-            zIndex: 1 
-          }} />
-
-          {/* Continuous Light Pulse */}
-          <motion.div
-            animate={{ x: ['-600px', '600px'] }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
-            style={{
-              position: 'absolute', top: '50%', width: '200px', height: '2px',
-              background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent)',
-              zIndex: 2,
-              filter: 'blur(2px)'
-            }}
-          />
-
-          {/* Steps Container */}
-          <div style={{ 
+          <div className="hm-timeline-wrapper" style={{ 
             display: 'flex', width: '100%', justifyContent: 'space-between', 
             position: 'relative', zIndex: 10 
           }}>
+            {/* Main Axis Line */}
+            <div className="hm-timeline-line-bg" style={{ 
+              position: 'absolute', top: '50%', left: 0, right: 0, height: '2px', 
+              background: 'rgba(0,0,0,0.03)', zIndex: 0 
+            }} />
+            
+            <motion.div className="hm-timeline-line-progress" style={{ 
+              position: 'absolute', top: '50%', left: 0, right: 0, height: '2px', 
+              background: 'linear-gradient(90deg, #FF3366, #3b16fe)', 
+              scaleX, transformOrigin: 'left',
+              boxShadow: '0 0 15px rgba(59, 22, 254, 0.15)',
+              zIndex: 1 
+            }} />
+
+            {/* Continuous Light Pulse */}
+            <motion.div
+              className="hm-timeline-line-progress"
+              animate={{ x: ['-600px', '600px'] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+              style={{
+                position: 'absolute', top: '50%', width: '200px', height: '2px',
+                background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent)',
+                zIndex: 2,
+                filter: 'blur(2px)'
+              }}
+            />
+
+            {/* Steps Container */}
             {steps.map((step, i) => (
               <TimelineItem key={i} step={step} index={i} scrollYProgress={scrollYProgress} />
             ))}
@@ -103,13 +103,14 @@ const TimelineItem = ({ step, index, scrollYProgress }) => {
   const springScale = useSpring(nodeScale, { stiffness: 100, damping: 30 });
 
   return (
-    <div style={{ 
+    <div className="hm-timeline-item" style={{ 
       width: '30%', display: 'flex', flexDirection: 'column', 
       alignItems: 'center', position: 'relative' 
     }}>
       
       {/* Premium Glass Card */}
       <motion.div
+        className="hm-timeline-card"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -136,7 +137,7 @@ const TimelineItem = ({ step, index, scrollYProgress }) => {
           willChange: 'transform, opacity'
         }}
       >
-        <h3 style={{ 
+        <h3 className="hm-timeline-card-title" style={{ 
           fontSize: '1.5rem', fontWeight: 900, 
           background: 'linear-gradient(135deg, #FF3366, #3b16fe)',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
@@ -144,7 +145,7 @@ const TimelineItem = ({ step, index, scrollYProgress }) => {
         }}>
           {step.title}
         </h3>
-        <p style={{ 
+        <p className="hm-timeline-card-desc" style={{ 
           fontSize: '1.1rem', color: '#64748b', 
           lineHeight: 1.7, margin: 0, fontWeight: 400
         }}>
@@ -154,6 +155,7 @@ const TimelineItem = ({ step, index, scrollYProgress }) => {
 
       {/* Neumorphic Node */}
       <motion.div
+        className="hm-timeline-dot"
         style={{
           width: '28px', height: '28px', borderRadius: '50%',
           background: '#ffffff',

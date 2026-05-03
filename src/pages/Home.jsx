@@ -78,7 +78,7 @@ const Home = () => {
   return (
     <div>
       {/* 1. Hero Section */}
-      <section style={{ height: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section className="home-hero-section" style={{ height: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
         <Scene3D />
         <div className="container" style={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
           <motion.p 
@@ -89,7 +89,7 @@ const Home = () => {
           </motion.p>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-radiant"
+            className="text-radiant home-hero-title"
             style={{ 
               fontSize: 'min(8vw, 6rem)', 
               fontWeight: 900, 
@@ -102,7 +102,7 @@ const Home = () => {
             LEARN. BUILD. GROW.
           </motion.h1>
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.6 }} style={{ marginTop: '3rem' }}>
-            <a href="#what-we-do" className="btn btn-primary" style={{ padding: '1.5rem 4rem', fontSize: '1.5rem', borderRadius: '100px', fontWeight: 800 }}>
+            <a href="#what-we-do" className="btn btn-primary home-hero-btn" style={{ padding: '1.5rem 4rem', fontSize: '1.5rem', borderRadius: '100px', fontWeight: 800 }}>
               Discover Ugham <ArrowRight size={28} />
             </a>
           </motion.div>
@@ -161,9 +161,9 @@ const Home = () => {
             style={{ position: 'absolute', top: '50%', left: '1rem', right: '1rem', height: '1px', background: 'var(--border)', zIndex: 0, transformOrigin: 'left center' }} 
           />
           
-          <motion.div style={{ display: 'flex', gap: '3rem', width: '100%' }}>
+          <motion.div className="phase-cards-row" style={{ display: 'flex', gap: '3rem', width: '100%' }}>
             {/* Phase 1: Ideation */}
-            <motion.div variants={slideIn} style={{ flex: 1, zIndex: 1 }}>
+            <motion.div variants={slideIn} className="phase-card-item" style={{ flex: 1, zIndex: 1 }}>
               <GlowCard glowColor="rgba(255, 51, 102, 0.4)" style={{ height: '350px' }}>
                 <img src="/assets/img/ideation.png" alt="Ideation" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem 1.5rem', background: 'linear-gradient(to top, rgba(0,0,0,0.9), transparent)' }}>
@@ -174,7 +174,7 @@ const Home = () => {
             </motion.div>
 
             {/* Phase 2: Building */}
-            <motion.div variants={slideIn} style={{ flex: 1, zIndex: 1 }}>
+            <motion.div variants={slideIn} className="phase-card-item" style={{ flex: 1, zIndex: 1 }}>
               <GlowCard glowColor="rgba(0, 194, 255, 0.4)" style={{ height: '350px' }}>
                 <img src="/assets/img/building.png" alt="Building" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem 1.5rem', background: 'linear-gradient(to top, rgba(0,0,0,0.9), transparent)' }}>
@@ -185,7 +185,7 @@ const Home = () => {
             </motion.div>
 
             {/* Phase 3: Scaling */}
-            <motion.div variants={slideIn} style={{ flex: 1, zIndex: 1 }}>
+            <motion.div variants={slideIn} className="phase-card-item" style={{ flex: 1, zIndex: 1 }}>
               <GlowCard glowColor="rgba(59, 22, 254, 0.4)" style={{ height: '350px' }}>
                 <img src="/assets/img/scope.png" alt="Scaling" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem 1.5rem', background: 'linear-gradient(to top, rgba(0,0,0,0.9), transparent)' }}>
@@ -217,12 +217,13 @@ const Home = () => {
             </motion.h2>
           </div>
           
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: '2rem', paddingTop: '2rem' }}>
+          <div className="why-us-row" style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: '2rem', paddingTop: '2rem' }}>
             {/* Left Block */}
             <motion.div 
               variants={fadeUp}
               onMouseEnter={() => setActiveSide('left')}
               onMouseLeave={() => setActiveSide(null)}
+              className="why-us-left"
               style={{ flex: 1, textAlign: 'right', cursor: 'default' }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '1rem', marginBottom: '1rem' }}>
@@ -251,7 +252,7 @@ const Home = () => {
             </motion.div>
 
             {/* Center 3D Flow */}
-            <motion.div variants={fadeUp} style={{ flex: 1.2 }}>
+            <motion.div variants={fadeUp} className="why-us-center" style={{ flex: 1.2 }}>
               <FlowConnection activeSide={activeSide} />
             </motion.div>
 
@@ -260,6 +261,7 @@ const Home = () => {
               variants={fadeUp}
               onMouseEnter={() => setActiveSide('right')}
               onMouseLeave={() => setActiveSide(null)}
+              className="why-us-right"
               style={{ flex: 1, textAlign: 'left', cursor: 'default' }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
@@ -302,7 +304,7 @@ const Home = () => {
             <h2 className="text-radiant">WHAT YOU CAN BUILD WITH US</h2>
           </div>
           
-          <div style={{ 
+          <div className="build-accordion" style={{ 
             display: 'flex', 
             height: '580px', 
             gap: '1.25rem', 
@@ -315,6 +317,7 @@ const Home = () => {
               return (
                 <motion.div 
                   key={index}
+                  className="build-accordion-item"
                   onMouseEnter={() => setActiveAccordion(index)}
                   layout
                   transition={{ 
@@ -464,7 +467,7 @@ const Home = () => {
             <h2 className="text-radiant" style={{ fontSize: '3rem', fontWeight: 900 }}>BUILDING A GENERATION OF CREATORS</h2>
           </div>
 
-          <div style={{ 
+          <div className="home-impact-grid" style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', 
             gap: '3rem',

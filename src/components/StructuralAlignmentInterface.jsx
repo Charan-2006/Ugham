@@ -6,6 +6,7 @@ const AlignmentItem = ({ number, text, index, isAnyHovered, setHoveredIdx, hover
   
   return (
     <motion.div
+      className="alignment-item"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -23,19 +24,21 @@ const AlignmentItem = ({ number, text, index, isAnyHovered, setHoveredIdx, hover
         padding: '0.5rem 0'
       }}
     >
-      {/* Number Sub-grid */}
-      <span style={{ 
+      {/* Number */}
+      <span className="alignment-item-number" style={{ 
         fontFamily: 'monospace', 
         fontSize: '0.9rem', 
         color: 'rgba(59, 22, 254, 0.6)', 
         marginTop: '0.5rem',
-        width: '40px'
+        width: '40px',
+        flexShrink: 0
       }}>
         {number}
       </span>
 
-      {/* Horizontal Guide Line */}
+      {/* Horizontal Guide Line — desktop hover only */}
       <motion.div 
+        className="alignment-guide-line"
         initial={{ width: 0 }}
         animate={{ width: isHovered ? '40px' : 0 }}
         style={{ 
@@ -49,7 +52,7 @@ const AlignmentItem = ({ number, text, index, isAnyHovered, setHoveredIdx, hover
       />
 
       {/* Content */}
-      <div style={{ position: 'relative' }}>
+      <div className="alignment-item-text" style={{ position: 'relative' }}>
         <p style={{ 
           fontSize: '1.25rem', 
           lineHeight: 2.0, 
@@ -70,11 +73,10 @@ const StructuralAlignmentInterface = () => {
   const [hoveredIdx, setHoveredIdx] = useState(null);
   const containerRef = useRef(null);
   
-  // Inertial Drift Parallax
   const mouseX = useMotionValue(0);
   const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
   
-  const leftDrift = useTransform(springX, [-0.5, 0.5], [5, -5]);
+  const leftDrift  = useTransform(springX, [-0.5, 0.5], [5, -5]);
   const rightDrift = useTransform(springX, [-0.5, 0.5], [-5, 5]);
 
   const handleMouseMove = (e) => {
@@ -108,11 +110,16 @@ const StructuralAlignmentInterface = () => {
       style={{ background: '#ffffff', minHeight: '800px', position: 'relative', overflow: 'hidden', padding: '10rem 0' }}
     >
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '2rem' }}>
-          
+        <div
+          className="alignment-grid"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '2rem' }}
+        >
           {/* Columns 1-5: Why Choose */}
-          <motion.div style={{ gridColumn: 'span 5', x: leftDrift }}>
-            <h2 className="text-radiant" style={{ 
+          <motion.div
+            className="alignment-col alignment-col--left"
+            style={{ gridColumn: 'span 5', x: leftDrift }}
+          >
+            <h2 className="text-radiant alignment-heading" style={{ 
               fontSize: '3.5rem', 
               fontWeight: 900, 
               letterSpacing: '-0.02em', 
@@ -134,12 +141,15 @@ const StructuralAlignmentInterface = () => {
             ))}
           </motion.div>
 
-          {/* Columns 6-7: The Vacuum */}
-          <div style={{ gridColumn: 'span 2' }} />
+          {/* Columns 6-7: Spacer */}
+          <div className="alignment-spacer" style={{ gridColumn: 'span 2' }} />
 
-          {/* Columns 8-12: What Different */}
-          <motion.div style={{ gridColumn: 'span 5', x: rightDrift }}>
-            <h2 className="text-radiant" style={{ 
+          {/* Columns 8-12: What Makes Us Different */}
+          <motion.div
+            className="alignment-col alignment-col--right"
+            style={{ gridColumn: 'span 5', x: rightDrift }}
+          >
+            <h2 className="text-radiant alignment-heading" style={{ 
               fontSize: '3.5rem', 
               fontWeight: 900, 
               letterSpacing: '-0.02em', 
@@ -160,7 +170,6 @@ const StructuralAlignmentInterface = () => {
               />
             ))}
           </motion.div>
-
         </div>
       </div>
     </section>

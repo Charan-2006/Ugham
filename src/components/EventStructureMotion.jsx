@@ -37,42 +37,64 @@ const TechnicalIcon = ({ index }) => (
   </div>
 );
 
-const TimelineNode = ({ index, title, desc, isRight }) => {
+const useMobile = () => {
+  const [isMobile, React_useState] = React.useState(false);
+  React.useEffect(() => {
+    const checkMobile = () => React_useState(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  return isMobile;
+};
+
+const TimelineNode = ({ index, title, desc, isRight, isMobile }) => {
   const accentColor = index % 2 === 0 ? '#FF3366' : '#3b16fe';
   return (
-    <div style={{ 
+    <div className="timeline-node-wrapper" style={{ 
       display: 'flex', 
-      justifyContent: isRight ? 'flex-start' : 'flex-end', 
+      justifyContent: isMobile ? 'flex-end' : (isRight ? 'flex-start' : 'flex-end'), 
       alignItems: 'center', 
       width: '100%', 
-      marginBottom: '120px',
-      position: 'relative'
+      marginBottom: isMobile ? '80px' : '120px',
+      position: 'relative',
+      boxSizing: 'border-box'
     }}>
       {/* Content Card */}
       <motion.div
-        initial={{ opacity: 0, x: isRight ? 50 : -50 }}
+        className="timeline-card"
+        initial={{ opacity: 0, x: isMobile ? 30 : (isRight ? 50 : -50) }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         style={{ 
-          width: '42%', 
-          textAlign: isRight ? 'left' : 'right',
-          padding: '2.5rem',
+          width: isMobile ? 'calc(100% - 60px)' : '42%', 
+          marginLeft: isMobile ? '60px' : '0',
+          textAlign: isMobile ? 'left' : (isRight ? 'left' : 'right'),
+          padding: isMobile ? '2rem 1.5rem' : '2.5rem',
           background: '#ffffff',
-          borderRadius: '4px',
+          borderRadius: '12px',
           boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
-          borderLeft: isRight ? `4px solid ${accentColor}` : 'none',
-          borderRight: !isRight ? `4px solid ${accentColor}` : 'none'
+          borderLeft: isMobile ? `4px solid ${accentColor}` : (isRight ? `4px solid ${accentColor}` : 'none'),
+          borderRight: isMobile ? 'none' : (!isRight ? `4px solid ${accentColor}` : 'none'),
+          boxSizing: 'border-box',
+          position: 'relative',
+          zIndex: 1
         }}
       >
-        <h3 style={{ fontSize: '1.75rem', fontWeight: 900, marginBottom: '1rem', color: '#0f172a' }}>{title}</h3>
-        <p style={{ color: '#4A4A4A', lineHeight: 1.6, margin: 0 }}>{desc}</p>
+        <h3 style={{ fontSize: isMobile ? '1.35rem' : '1.75rem', fontWeight: 900, marginBottom: '1rem', color: '#0f172a', whiteSpace: 'normal', wordBreak: 'break-word' }}>{title}</h3>
+        <p style={{ color: '#4A4A4A', lineHeight: 1.6, margin: 0, fontSize: isMobile ? '0.95rem' : '1rem', whiteSpace: 'normal', wordBreak: 'break-word' }}>{desc}</p>
       </motion.div>
 
       {/* Center Station */}
       <div style={{ 
-        position: 'absolute', left: '50%', transform: 'translateX(-50%)',
-        background: '#fff', padding: '1rem', zIndex: 10 
+        position: 'absolute', 
+        left: isMobile ? '20px' : '50%', 
+        transform: isMobile ? 'translateX(-50%) scale(0.6)' : 'translateX(-50%)',
+        background: '#fff', 
+        padding: isMobile ? '0.5rem' : '1rem', 
+        zIndex: 10,
+        borderRadius: '50%'
       }}>
         <TechnicalIcon index={index} />
       </div>
@@ -82,6 +104,7 @@ const TimelineNode = ({ index, title, desc, isRight }) => {
 
 const EventStructureMotion = () => {
   const containerRef = useRef(null);
+  const isMobile = useMobile();
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end center"]
@@ -133,19 +156,19 @@ const EventStructureMotion = () => {
   ];
 
   return (
-    <section ref={containerRef} className="section" style={{ background: '#ffffff', padding: '150px 0', overflow: 'hidden' }}>
-      <div className="container text-center" style={{ marginBottom: '100px' }}>
-        <h2 className="text-radiant" style={{ fontSize: '4rem', fontWeight: 900 }}>MOTION STRUCTURE</h2>
+    <section ref={containerRef} className="section" style={{ background: '#ffffff', padding: isMobile ? '80px 0' : '150px 0', overflow: 'hidden' }}>
+      <div className="container text-center" style={{ marginBottom: isMobile ? '60px' : '100px', padding: isMobile ? '0 1rem' : '0 2rem' }}>
+        <h2 className="text-radiant" style={{ fontSize: isMobile ? '2.5rem' : '4rem', fontWeight: 900 }}>MOTION STRUCTURE</h2>
       </div>
 
-      <div className="container" style={{ position: 'relative' }}>
+      <div className="container" style={{ position: 'relative', padding: isMobile ? '0 1rem' : '0 2rem' }}>
         {/* The Growing Motion Line */}
-        <div style={{ 
-          position: 'absolute', left: '50%', top: 0, bottom: 0, 
+        <div className="timeline-axis" style={{ 
+          position: 'absolute', left: isMobile ? '20px' : '50%', top: 0, bottom: 0, 
           width: '4px', background: '#f1f5f9', transform: 'translateX(-50%)' 
         }} />
         <motion.div style={{ 
-          position: 'absolute', left: '50%', top: 0, 
+          position: 'absolute', left: isMobile ? '20px' : '50%', top: 0, 
           width: '4px', background: 'linear-gradient(to bottom, #FF3366, #3b16fe)',
           transform: 'translateX(-50%)',
           scaleY,
@@ -154,15 +177,15 @@ const EventStructureMotion = () => {
         }} />
 
         {/* Timeline Items */}
-        <div style={{ marginTop: '50px' }}>
+        <div className="timeline-items" style={{ marginTop: '50px', position: 'relative' }}>
           {nodes.map((node, i) => (
-            <TimelineNode key={i} index={i} {...node} isRight={i % 2 !== 0} />
+            <TimelineNode key={i} index={i} {...node} isRight={i % 2 !== 0} isMobile={isMobile} />
           ))}
         </div>
 
         {/* Floating Schedule Reveal */}
         <div style={{ marginTop: '150px', textAlign: 'center' }}>
-          <div style={{ 
+          <div className="date-chips" style={{ 
             display: 'inline-flex', flexWrap: 'wrap', gap: '1rem', 
             justifyContent: 'center', maxWidth: '1000px', margin: '0 auto' 
           }}>

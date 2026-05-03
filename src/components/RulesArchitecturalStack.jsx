@@ -23,6 +23,7 @@ const RulesArchitecturalStack = ({ rules }) => {
               return (
                 <motion.div 
                   key={i}
+                  className="rules-row"
                   initial={{ opacity: 0, x: isEven ? -100 : 100 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
@@ -36,6 +37,7 @@ const RulesArchitecturalStack = ({ rules }) => {
                 >
                   {/* Connection Filament */}
                   <motion.div 
+                    className="rules-filament"
                     initial={{ width: 0 }}
                     whileInView={{ width: '50px' }}
                     transition={{ delay: 0.5, duration: 1 }}
@@ -52,6 +54,7 @@ const RulesArchitecturalStack = ({ rules }) => {
 
                   {/* The Rule Slat */}
                   <motion.div
+                    className="rules-card"
                     whileHover={{ scale: 1.02, x: isEven ? -10 : 10 }}
                     style={{ 
                       width: '45%', 

@@ -73,32 +73,65 @@ const Layout = () => {
             </Link>
           </div>
 
-          {/* Mobile Nav Toggle */}
+          {/* Mobile Hamburger — CSS hides this on desktop */}
           <button 
             className="mobile-toggle" 
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer', display: 'none' }}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Open menu"
+            onClick={() => setMobileMenuOpen(true)}
+            style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
           >
-            {mobileMenuOpen ? <X size={28} color="var(--text)" /> : <Menu size={28} color="var(--text)" />}
+            <Menu size={26} color="var(--text)" />
           </button>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && (
-        <div style={{
-          position: 'fixed', inset: 0, background: 'var(--bg)', zIndex: 999,
-          display: 'flex', flexDirection: 'column', padding: '6rem 2rem 2rem'
-        }}>
-          <ul style={{ display: 'flex', flexDirection: 'column', gap: '2rem', textAlign: 'center' }}>
-            {navLinks.map(link => (
-              <li key={link.name}>
-                <Link to={link.path} style={{ fontSize: '1.25rem', fontWeight: 600 }}>{link.name}</Link>
+      {/* ── Mobile Full-Screen Menu Overlay ── */}
+      <div className={`mobile-menu-overlay ${mobileMenuOpen ? 'mobile-menu-overlay--open' : ''}`}>
+
+        {/* Top bar inside overlay: logo + close button */}
+        <div className="mobile-menu-topbar">
+          <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+            <img src="/assets/img/logo-ugham.png" alt="Ugham" className="mobile-menu-logo" />
+          </Link>
+          <button
+            className="mobile-menu-close"
+            aria-label="Close menu"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <X size={26} />
+          </button>
+        </div>
+
+        {/* Nav links */}
+        <nav className="mobile-menu-nav">
+          <ul className="mobile-menu-list">
+            {navLinks.map((link, i) => (
+              <li key={link.name} className="mobile-menu-item" style={{ animationDelay: `${i * 0.06}s` }}>
+                <Link
+                  to={link.path}
+                  className={`mobile-menu-link ${location.pathname === link.path ? 'mobile-menu-link--active' : ''}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="mobile-menu-link-index">0{i + 1}</span>
+                  {link.name}
+                </Link>
               </li>
             ))}
           </ul>
+        </nav>
+
+        {/* Bottom CTA */}
+        <div className="mobile-menu-footer">
+          <Link
+            to="/contact"
+            className="btn btn-primary mobile-menu-cta"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            LET'S TALK
+          </Link>
+          <p className="mobile-menu-tagline">Where Evolution Starts</p>
         </div>
-      )}
+      </div>
 
       <main style={{ minHeight: '80vh' }}>
         <Outlet />

@@ -74,35 +74,35 @@ const BenefitsBentoGrid = ({ benefits }) => {
           <h2 className="text-radiant" style={{ fontSize: '3.5rem', fontWeight: 900 }}>PARTICIPANT BENEFITS</h2>
         </div>
 
-        <div style={{ 
+        <div className="bento-grid" style={{ 
           display: 'grid', 
           gridTemplateColumns: 'repeat(12, 1fr)',
           gridAutoRows: 'minmax(280px, auto)',
           gap: '1.5rem'
         }}>
           {/* Custom Bento Layout */}
-          <div style={{ gridColumn: 'span 4' }}>
+          <div className="bento-cell" style={{ gridColumn: 'span 4' }}>
             <BenefitCard title={benefits[0]} index={0} />
           </div>
-          <div style={{ gridColumn: 'span 8' }}>
+          <div className="bento-cell" style={{ gridColumn: 'span 8' }}>
             <BenefitCard title={benefits[1]} index={1} />
           </div>
-          <div style={{ gridColumn: 'span 7' }}>
+          <div className="bento-cell" style={{ gridColumn: 'span 7' }}>
             <BenefitCard title={benefits[2]} index={2} />
           </div>
-          <div style={{ gridColumn: 'span 5' }}>
+          <div className="bento-cell" style={{ gridColumn: 'span 5' }}>
             <BenefitCard title={benefits[3]} index={3} />
           </div>
-          <div style={{ gridColumn: 'span 6' }}>
+          <div className="bento-cell" style={{ gridColumn: 'span 6' }}>
             <BenefitCard title={benefits[4]} index={4} />
           </div>
-          <div style={{ gridColumn: 'span 6' }}>
+          <div className="bento-cell" style={{ gridColumn: 'span 6' }}>
             <BenefitCard title={benefits[5]} index={5} />
           </div>
-          <div style={{ gridColumn: 'span 8' }}>
+          <div className="bento-cell" style={{ gridColumn: 'span 8' }}>
             <BenefitCard title={benefits[6]} index={6} />
           </div>
-          <div style={{ gridColumn: 'span 4' }}>
+          <div className="bento-cell" style={{ gridColumn: 'span 4' }}>
             <BenefitCard title={benefits[7]} index={7} />
           </div>
         </div>

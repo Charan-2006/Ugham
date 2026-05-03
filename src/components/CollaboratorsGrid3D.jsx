@@ -73,8 +73,20 @@ const CollaboratorTile = ({ label, index, activeIdx, setActiveIdx }) => {
   );
 };
 
+const useMobile = () => {
+  const [isMobile, React_useState] = useState(false);
+  React.useEffect(() => {
+    const checkMobile = () => React_useState(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  return isMobile;
+};
+
 const CollaboratorsGrid3D = () => {
   const [activeIdx, setActiveIdx] = useState(null);
+  const isMobile = useMobile();
 
   const partners = [
     'Educational Institutions',
@@ -86,44 +98,63 @@ const CollaboratorsGrid3D = () => {
   ];
 
   return (
-    <section className="section gpu-accel" style={{ background: '#ffffff', padding: '120px 0', minHeight: '800px' }}>
+    <section className="section gpu-accel" style={{ background: '#ffffff', padding: isMobile ? '80px 0' : '120px 0', minHeight: isMobile ? 'auto' : '800px' }}>
       <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         
-        <div className="section-header text-center" style={{ marginBottom: '60px' }}>
+        <div className="section-header text-center" style={{ marginBottom: isMobile ? '40px' : '60px' }}>
           <span className="section-label">PARTNERSHIP NETWORK</span>
-          <h2 className="text-radiant" style={{ fontSize: '3.5rem', fontWeight: 900 }}>WHO CAN COLLABORATE</h2>
+          <h2 className="text-radiant" style={{ fontSize: isMobile ? '2.5rem' : '3.5rem', fontWeight: 900 }}>WHO CAN COLLABORATE</h2>
         </div>
 
-        <div style={{ height: '600px', width: '100vw', maxWidth: '1400px', position: 'relative' }}>
-          <Canvas dpr={[1, 2]}>
-            <PerspectiveCamera makeDefault position={[0, 0, 15]} fov={45} />
-            <ambientLight intensity={1.5} />
-            <pointLight position={[10, 10, 10]} intensity={2} />
-            
-            <group position-y={0.5}>
-              {partners.map((label, i) => (
-                <CollaboratorTile 
-                  key={i} 
-                  index={i} 
-                  label={label} 
-                  activeIdx={activeIdx} 
-                  setActiveIdx={setActiveIdx} 
-                />
-              ))}
-            </group>
+        {isMobile ? (
+          <div className="collaborators-mobile-list">
+            {partners.map((label, i) => (
+              <motion.div 
+                key={i} 
+                className="collaborators-mobile-card"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span className="collaborators-mobile-label">PARTNER_0{i + 1}</span>
+                <h3 className="collaborators-mobile-title">{label}</h3>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <div style={{ height: '600px', width: '100vw', maxWidth: '1400px', position: 'relative' }}>
+            <Canvas dpr={[1, 2]}>
+              <PerspectiveCamera makeDefault position={[0, 0, 15]} fov={45} />
+              <ambientLight intensity={1.5} />
+              <pointLight position={[10, 10, 10]} intensity={2} />
+              
+              <group position-y={0.5}>
+                {partners.map((label, i) => (
+                  <CollaboratorTile 
+                    key={i} 
+                    index={i} 
+                    label={label} 
+                    activeIdx={activeIdx} 
+                    setActiveIdx={setActiveIdx} 
+                  />
+                ))}
+              </group>
 
-            <ContactShadows 
-              position={[0, -6, 0]} 
-              opacity={0.3} 
-              scale={40} 
-              blur={2.5} 
-              far={15} 
-              color="#000000" 
-            />
-          </Canvas>
-        </div>
+              <ContactShadows 
+                position={[0, -6, 0]} 
+                opacity={0.3} 
+                scale={40} 
+                blur={2.5} 
+                far={15} 
+                color="#000000" 
+              />
+            </Canvas>
+          </div>
+        )}
 
-        <p style={{ marginTop: '4rem', color: 'var(--text-muted)', textAlign: 'center', maxWidth: '600px' }}>
+        <p style={{ marginTop: isMobile ? '3rem' : '4rem', color: 'var(--text-muted)', textAlign: 'center', maxWidth: '600px', padding: isMobile ? '0 1rem' : 0 }}>
           We collaborate with a diverse range of organizations to provide students with the best possible resources, mentorship, and opportunities.
         </p>
 

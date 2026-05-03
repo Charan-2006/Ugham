@@ -39,7 +39,7 @@ const AwardsHero3D = () => {
   return (
     <section className="section" style={{ background: '#ffffff', padding: '150px 0 80px', minHeight: '60vh', display: 'flex', alignItems: 'center' }}>
       <div className="container">
-        <div style={{ 
+        <div className="awards-hero-grid" style={{ 
           display: 'grid', 
           gridTemplateColumns: 'repeat(12, 1fr)', 
           alignItems: 'center', 
@@ -48,7 +48,7 @@ const AwardsHero3D = () => {
         }}>
           
           {/* Left Content */}
-          <div style={{ gridColumn: 'span 6' }}>
+          <div className="awards-hero-left" style={{ gridColumn: 'span 6' }}>
             <h1 className="text-radiant" style={{ 
               fontSize: 'clamp(3rem, 7.5vw, 5rem)', 
               fontWeight: 900, 
@@ -64,7 +64,7 @@ const AwardsHero3D = () => {
           </div>
 
           {/* Right Content */}
-          <div style={{ 
+          <div className="awards-hero-right" style={{ 
             gridColumn: 'span 6', 
             display: 'flex', 
             flexDirection: 'column',

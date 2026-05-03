@@ -26,6 +26,7 @@ const OfferingModule = ({ title, desc, index, isAnyHovered, hoveredIdx, setHover
   return (
     <motion.div
       ref={cardRef}
+      className="core-offerings-card-wrapper"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHoveredIdx(index)}
       onMouseLeave={() => setHoveredIdx(null)}
@@ -40,6 +41,7 @@ const OfferingModule = ({ title, desc, index, isAnyHovered, hoveredIdx, setHover
       }}
     >
       <motion.div
+        className="core-offerings-card-inner"
         style={{
           rotateX,
           rotateY,
@@ -71,7 +73,7 @@ const OfferingModule = ({ title, desc, index, isAnyHovered, hoveredIdx, setHover
           transform: `translateZ(-10px) scale(1.1)`
         }} />
 
-        <h3 style={{ 
+        <h3 className="core-offerings-card-title" style={{ 
           fontSize: '1.25rem', 
           fontWeight: 800, 
           letterSpacing: '-0.01em', 
@@ -82,7 +84,7 @@ const OfferingModule = ({ title, desc, index, isAnyHovered, hoveredIdx, setHover
         }}>
           {title}
         </h3>
-        <p style={{ 
+        <p className="core-offerings-card-desc" style={{ 
           fontSize: '1rem', 
           color: '#4a5568', // Charcoal gray
           lineHeight: 1.7,
@@ -95,6 +97,7 @@ const OfferingModule = ({ title, desc, index, isAnyHovered, hoveredIdx, setHover
 
         {/* Prism Light Dispersion Effect */}
         <motion.div 
+          className="core-offerings-prism"
           animate={{ x: ['-200%', '200%'] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
           style={{ 
@@ -120,11 +123,11 @@ const CoreOfferings3DGrid = () => {
   ];
 
   return (
-    <section className="section gpu-accel" style={{ background: '#ffffff', padding: '6rem 0', position: 'relative' }}>
+    <section className="section gpu-accel core-offerings-section" style={{ background: '#ffffff', padding: '6rem 0', position: 'relative' }}>
       <div className="container">
         <div className="section-header text-center" style={{ marginBottom: '6rem' }}>
           <span className="section-label">SERVICES</span>
-          <h2 className="text-radiant" style={{ 
+          <h2 className="text-radiant core-offerings-heading" style={{ 
             fontSize: '3.5rem', 
             fontWeight: 900, 
             textTransform: 'uppercase', 
@@ -135,7 +138,7 @@ const CoreOfferings3DGrid = () => {
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4rem' }}>
+        <div className="core-offerings-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4rem' }}>
           {offerings.map((off, i) => (
             <OfferingModule 
               key={i} 
@@ -154,3 +157,4 @@ const CoreOfferings3DGrid = () => {
 };
 
 export default CoreOfferings3DGrid;
+

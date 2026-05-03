@@ -117,6 +117,192 @@ p {
   .container {
     padding: 0 4rem;
   }
+
+  /* Desktop-only: always show desktop nav, hide hamburger */
+  .desktop-nav {
+    display: flex !important;
+  }
+
+  .mobile-toggle {
+    display: none !important;
+  }
+}
+
+/* ============================================================
+   MOBILE MENU OVERLAY — base styles (hidden by default)
+   These are global so the overlay doesn't flash on desktop.
+   The overlay is always in the DOM but hidden via transform.
+   ============================================================ */
+
+/* Hidden by default on ALL screens */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  /* Start off-screen to the right */
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.35s ease,
+              visibility 0s linear 0.4s;
+  pointer-events: none;
+}
+
+/* Open state */
+.mobile-menu-overlay--open {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.35s ease,
+              visibility 0s linear 0s;
+  pointer-events: all;
+}
+
+/* ── Top bar: logo + close ── */
+.mobile-menu-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.4rem 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  flex-shrink: 0;
+}
+
+.mobile-menu-logo {
+  height: 36px;
+  display: block;
+}
+
+.mobile-menu-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: #f8fafc;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #0f172a;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.mobile-menu-close:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* ── Nav list ── */
+.mobile-menu-nav {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+}
+
+.mobile-menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Individual item ── */
+.mobile-menu-item {
+  border-bottom: 1px solid #f1f5f9;
+  animation: menuItemSlideIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes menuItemSlideIn {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.mobile-menu-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #0f172a;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-menu-link:active {
+  color: var(--primary);
+}
+
+.mobile-menu-link--active {
+  color: var(--primary);
+}
+
+.mobile-menu-link-index {
+  font-size: 0.7rem;
+  font-weight: 800;
+  font-family: monospace;
+  color: var(--primary);
+  opacity: 0.5;
+  letter-spacing: 0.1em;
+  min-width: 28px;
+}
+
+.mobile-menu-link--active .mobile-menu-link-index {
+  opacity: 1;
+}
+
+/* ── Footer CTA ── */
+.mobile-menu-footer {
+  padding: 1.5rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.mobile-menu-cta {
+  width: 100%;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 8px;
+}
+
+.mobile-menu-tagline {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ── On desktop: overlay must NEVER show ── */
+@media (min-width: 1024px) {
+  .mobile-menu-overlay {
+    display: none !important;
+  }
+  .mobile-toggle {
+    display: none !important;
+  }
 }
 
 .section {
@@ -208,3 +394,912 @@ p {
   box-shadow: 0 20px 40px rgba(59, 22, 254, 0.08);
   border-color: rgba(59, 22, 254, 0.2);
 }
+
+/* ========================================
+   TEXT-CENTER UTILITY
+   ======================================== */
+.text-center {
+  text-align: center;
+}
+.text-center p,
+.text-center h1,
+.text-center h2,
+.text-center h3 {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================================
+   CORE VALUES — MOBILE FLAT CARD LAYOUT
+   These classes are only rendered when isMobile === true (≤ 768px).
+   They never appear on desktop. Zero desktop risk.
+   ============================================================ */
+
+.core-values-mobile-section {
+  padding: 56px 0;
+  background: #ffffff;
+}
+
+.core-values-mobile-header {
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+
+.core-values-mobile-heading {
+  font-size: clamp(1.75rem, 8vw, 2.25rem) !important;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-top: 0.5rem;
+}
+
+.core-values-mobile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Each card */
+.core-value-mobile-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.core-value-mobile-card:last-child {
+  border-bottom: none;
+}
+
+/* Index number */
+.core-value-mobile-index {
+  font-family: monospace;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--primary);
+  opacity: 0.6;
+  min-width: 28px;
+  padding-top: 0.3rem;
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+}
+
+.core-value-mobile-body {
+  flex: 1;
+}
+
+/* Card title — gradient matching desktop */
+.core-value-mobile-title {
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.35rem 0;
+  background: linear-gradient(135deg, #FF3366, #3b16fe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card description */
+.core-value-mobile-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ============================================================
+
+   MOBILE — max-width: 768px
+   100% className-based. Zero inline-style attribute selectors.
+   Desktop (≥ 1024px) is completely untouched.
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* ----------------------------------------------------------
+     GLOBAL RESET & OVERFLOW PREVENTION
+  ---------------------------------------------------------- */
+  :root { --section-padding: 56px; }
+
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  .container {
+    padding: 0 1.25rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* ----------------------------------------------------------
+     TYPOGRAPHY
+  ---------------------------------------------------------- */
+  h1 {
+    font-size: clamp(2rem, 9vw, 2.8rem) !important;
+    line-height: 1.1 !important;
+    white-space: normal !important;       /* fix hero whiteSpace:nowrap */
+    word-break: break-word !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 7vw, 2.2rem) !important;
+    line-height: 1.2 !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+
+  h3 {
+    font-size: clamp(1rem, 5vw, 1.3rem) !important;
+    white-space: normal !important;
+  }
+
+  p {
+    font-size: 0.95rem !important;
+    max-width: 100% !important;
+    line-height: 1.65 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .text-radiant {
+    padding-bottom: 4px !important;
+    display: inline-block !important;
+  }
+
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  /* ----------------------------------------------------------
+     SECTIONS
+  ---------------------------------------------------------- */
+  .section { padding: 56px 0 !important; }
+  .section--bg-light { padding: 56px 0 !important; }
+  .section-header { margin-bottom: 2rem !important; }
+
+  /* ----------------------------------------------------------
+     NAVBAR
+  ---------------------------------------------------------- */
+  .desktop-nav { display: none !important; }
+
+  /* Show hamburger button on mobile */
+  .mobile-toggle {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ----------------------------------------------------------
+     BUTTONS
+  ---------------------------------------------------------- */
+  .btn {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 0.9rem 1.5rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* Keep hero CTA and text-center CTAs at auto width */
+  .home-hero-btn,
+  .text-center .btn {
+    width: auto !important;
+    padding: 0.875rem 2rem !important;
+    font-size: 1rem !important;
+  }
+
+  /* ----------------------------------------------------------
+     GLASS CARDS
+  ---------------------------------------------------------- */
+  .glass-card {
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+  }
+
+  /* ----------------------------------------------------------
+     HOME — HERO
+     Issue: h1 has whiteSpace:nowrap → horizontal scroll
+  ---------------------------------------------------------- */
+  .home-hero-section {
+    height: auto !important;
+    min-height: 100svh !important;
+    padding-top: 90px !important;
+    padding-bottom: 60px !important;
+  }
+
+  .home-hero-title {
+    white-space: normal !important;
+    word-break: break-word !important;
+    font-size: clamp(2rem, 10vw, 3rem) !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  /* ----------------------------------------------------------
+     HOME — PHASE CARDS (horizontal 3-col → stack)
+  ---------------------------------------------------------- */
+  .phase-cards-row {
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+    overflow: visible !important;
+    width: 100% !important;
+  }
+
+  .phase-card-item {
+    flex: none !important;
+    width: 100% !important;
+    min-height: 220px !important;
+  }
+
+  /* Fix GlowCard height inside phase cards */
+  .phase-card-item > div {
+    height: 220px !important;
+  }
+
+  /* ----------------------------------------------------------
+     HOME — WHY US (mobile complete redesign)
+     Problem: 3D FlowConnection canvas (400px tall) wastes space,
+     animation overflows, 3-col layout breaks.
+     Fix: hide canvas entirely, stack 2 content cards vertically
+     with a clean separator between them.
+  ---------------------------------------------------------- */
+
+  /* 1. The entire section: reduce padding */
+  .section--bg-light {
+    padding: 48px 0 !important;
+  }
+
+  /* 2. The 3-col row → single column, tight gap */
+  .why-us-row {
+    flex-direction: column !important;
+    gap: 0 !important;
+    padding-top: 0.5rem !important;
+    align-items: stretch !important;
+  }
+
+  /* 3. HIDE the 3D canvas entirely on mobile */
+  .why-us-center,
+  .flow-connection-canvas {
+    display: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* 4. Left block (was right-aligned) → clean left card */
+  .why-us-left {
+    flex: none !important;
+    width: 100% !important;
+    text-align: left !important;
+    background: #f8fafc !important;
+    border-radius: 16px !important;
+    padding: 1.75rem !important;
+    border: 1px solid #e2e8f0 !important;
+    margin-bottom: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom: none !important;
+  }
+
+  /* Fix the icon+title row direction (was justify-end / row-reverse) */
+  .why-us-left > div:first-child {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .why-us-left h3 {
+    text-align: left !important;
+    font-size: 1.05rem !important;
+    margin: 0 !important;
+  }
+
+  .why-us-left p {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  /* 5. Right block → connects to left card visually */
+  .why-us-right {
+    flex: none !important;
+    width: 100% !important;
+    text-align: left !important;
+    background: #f8fafc !important;
+    border-radius: 16px !important;
+    padding: 1.75rem !important;
+    border: 1px solid #e2e8f0 !important;
+    border-top: 2px solid #3b16fe !important;  /* accent top border as divider */
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
+  .why-us-right > div:first-child {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .why-us-right h3 {
+    font-size: 1.05rem !important;
+    margin: 0 !important;
+  }
+
+  .why-us-right p {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  /* 6. Icon boxes: consistent size */
+  .why-us-left > div:first-child > div,
+  .why-us-right > div:first-child > div {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+    flex-shrink: 0 !important;
+  }
+
+
+  /* ----------------------------------------------------------
+     ABOUT — WHY CHOOSE / WHAT MAKES US DIFFERENT
+     Problem: 12-col grid forces 2 columns side by side.
+     Spacer div takes space. Parallax drift causes horizontal
+     overflow. Hover guide line is absolutely positioned.
+     Fix: single-column stacked layout, disable drift & guide.
+  ---------------------------------------------------------- */
+
+  /* 1. Section: reduce excessive padding */
+  .section.gpu-accel[style*="padding: '10rem 0'"],
+  .section.gpu-accel {
+    padding: 56px 0 !important;
+    min-height: auto !important;
+  }
+
+  /* 2. Convert 12-col grid → flex column */
+  .alignment-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    grid-template-columns: unset !important;
+  }
+
+  /* 3. Hide the empty spacer column */
+  .alignment-spacer {
+    display: none !important;
+  }
+
+  /* 4. Both columns: full width, reset grid span */
+  .alignment-col {
+    grid-column: unset !important;
+    width: 100% !important;
+    /* Kill parallax x-transform on mobile */
+    transform: none !important;
+    will-change: unset !important;
+  }
+
+  /* 5. Left column — add bottom separator */
+  .alignment-col--left {
+    padding-bottom: 2.5rem !important;
+    margin-bottom: 2.5rem !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+
+  /* 6. Section headings: scale down */
+  .alignment-heading {
+    font-size: clamp(1.5rem, 7vw, 2rem) !important;
+    margin-bottom: 2rem !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.01em !important;
+  }
+
+  /* 7. Each item row */
+  .alignment-item {
+    gap: 1rem !important;
+    margin-bottom: 0 !important;
+    padding: 0.9rem 0 !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    align-items: center !important;
+  }
+
+  /* 8. Hide the absolutely-positioned hover guide line */
+  .alignment-guide-line {
+    display: none !important;
+  }
+
+  /* 9. Number badge */
+  .alignment-item-number {
+    font-size: 0.75rem !important;
+    width: 32px !important;
+    min-width: 32px !important;
+    color: var(--primary) !important;
+    opacity: 0.7 !important;
+    margin-top: 0 !important;
+  }
+
+  /* 10. Text content */
+  .alignment-item-text p {
+    font-size: 0.975rem !important;
+    line-height: 1.55 !important;
+    font-weight: 500 !important;
+    color: var(--text) !important;
+    text-shadow: none !important;
+  }
+
+  /* ----------------------------------------------------------
+     SERVICES — CORE OFFERINGS 3D GRID
+     Problem: 2-col grid overflows screen, cards are clipped.
+     Fix: Single column, disable 3D mouse tracking tilt,
+     clean vertical stack.
+  ---------------------------------------------------------- */
+  .core-offerings-section {
+    padding: 56px 0 !important;
+  }
+
+  .core-offerings-heading {
+    font-size: clamp(1.75rem, 8vw, 2.5rem) !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .core-offerings-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Reset the 3D perspective wrapper */
+  .core-offerings-card-wrapper {
+    perspective: none !important;
+  }
+
+  /* Override the inline rotateX/rotateY transforms */
+  .core-offerings-card-inner {
+    transform: none !important;
+    height: auto !important;
+    min-height: 250px !important;
+    padding: 2rem 1.5rem !important;
+    border-radius: 16px !important;
+  }
+
+  .core-offerings-card-title {
+    font-size: 1.15rem !important;
+    transform: none !important; /* Remove Z translate */
+    margin-bottom: 1rem !important;
+  }
+
+  .core-offerings-card-desc {
+    font-size: 0.95rem !important;
+    transform: none !important; /* Remove Z translate */
+  }
+
+  /* Hide the moving light effect on mobile for better performance/readability */
+  .core-offerings-prism {
+    display: none !important;
+  }
+
+
+
+  /* ----------------------------------------------------------
+     HOME — TARGET AUDIENCE (KineticLightPathInterface)
+     Problem: Hardcoded 4-column layout squished on mobile.
+     Fix: Single column stack with card containers.
+  ---------------------------------------------------------- */
+  .target-audience-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (max-width: 992px) {
+    .target-audience-grid {
+      grid-template-columns: 1fr 1fr !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .target-audience-grid {
+      grid-template-columns: 1fr !important;
+      gap: 1.5rem !important;
+    }
+    
+    .target-audience-card {
+      padding: 2rem !important;
+      background: #ffffff !important;
+      border: 1px solid rgba(0,0,0,0.05) !important;
+      border-radius: 16px !important;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;
+    }
+    
+    /* Ensure the light streak doesn't overflow the rounded card on mobile */
+    .target-audience-card > div:last-child {
+      border-radius: 0 0 16px 16px !important;
+      left: 0 !important;
+      right: 0 !important;
+      overflow: hidden !important;
+    }
+  }
+
+  /* ----------------------------------------------------------
+     COLLABORATION — WHO CAN COLLABORATE MOBILE OVERRIDE
+  ---------------------------------------------------------- */
+  .collaborators-mobile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px !important;
+    margin-top: 2rem;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    padding: 0 1rem !important;
+    overflow: hidden !important;
+  }
+  
+  .collaborators-mobile-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.05) !important;
+    border-radius: 16px !important;
+    padding: 24px 20px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;
+    text-align: left !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    transition: all 0.3s ease !important;
+    margin: 0 !important;
+  }
+  
+  .collaborators-mobile-label {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: var(--primary) !important;
+    letter-spacing: 0.05em !important;
+    display: block !important;
+    margin-bottom: 8px !important;
+    white-space: normal !important;
+  }
+  
+  .collaborators-mobile-title {
+    font-size: 1.35rem !important;
+    font-weight: 900 !important;
+    color: var(--text) !important;
+    margin: 0 !important;
+    text-transform: uppercase !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    white-space: normal !important;
+    line-height: 1.4 !important;
+    overflow: visible !important;
+  }
+
+  /* ----------------------------------------------------------
+     HOME — THE UGHAM ROADMAP (VERTICAL TIMELINE REDESIGN)
+     Problem: Horizontal swipe felt cramped on mobile.
+     Fix: Complete override to a clean, left-aligned vertical 
+     timeline flow. Desktop remains completely unchanged.
+  ---------------------------------------------------------- */
+  
+  /* 0. OVERRIDE PARENT CLIPPING */
+  .hm-timeline-section {
+    overflow: visible !important;
+  }
+
+  .hm-timeline-header {
+    margin-bottom: 3rem !important;
+  }
+  
+  .hm-timeline-title {
+    font-size: clamp(1.75rem, 8vw, 2.5rem) !important;
+  }
+
+  /* 1. CONTAINER & WRAPPER FIX */
+  .hm-timeline-container {
+    height: auto !important;
+    display: block !important;
+  }
+
+  .hm-timeline-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+    gap: 2.5rem !important;
+  }
+
+  .hm-timeline-wrapper::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* 2. VERTICAL LINE (Background Track) */
+  .hm-timeline-line-bg {
+    position: absolute !important;
+    left: 10px !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 2px !important;
+    height: 100% !important;
+    background: linear-gradient(to bottom, rgba(59, 22, 254, 0.2), rgba(255, 51, 102, 0.2)) !important;
+  }
+
+  /* Hide animated progress line on mobile (tracks vertical scroll, can clash) */
+  .hm-timeline-line-progress {
+    display: none !important;
+  }
+
+  /* 3. CARD FIX & SPACING */
+  .hm-timeline-item {
+    width: 100% !important;
+    min-width: 0 !important;
+    flex-shrink: 1 !important;
+    scroll-snap-align: none !important;
+    height: auto !important;
+    display: block !important;
+    position: relative !important;
+    padding-left: 3.5rem !important; /* Push card to the right of the line */
+  }
+
+  .hm-timeline-card {
+    position: relative !important;
+    top: 0 !important;
+    bottom: auto !important;
+    width: 100% !important;
+    padding: 1.5rem !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04) !important;
+  }
+
+  .hm-timeline-card-title {
+    font-size: 1.15rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .hm-timeline-card-desc {
+    font-size: 0.95rem !important;
+  }
+
+  /* 4. VERTICAL INDICATOR (Dots) */
+  .hm-timeline-dot {
+    position: absolute !important;
+    left: 11px !important; /* Center on the 10px + 2px line */
+    top: 1.5rem !important; /* Align dot with the card's top padding */
+    bottom: auto !important;
+    transform: translateX(-50%) !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  /* ----------------------------------------------------------
+     HOME — WHAT YOU CAN BUILD (580px perspective accordion)
+  ---------------------------------------------------------- */
+  .build-accordion {
+    flex-direction: column !important;
+    height: auto !important;
+    perspective: none !important;
+    gap: 0.75rem !important;
+    contain: none !important;
+  }
+
+  .build-accordion-item {
+    flex: none !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    border-radius: 12px !important;
+  }
+
+  /* Always show content text on mobile — remove flex:1→5 expansion */
+  .build-accordion-item > div:first-child {
+    height: 160px !important;           /* image pane */
+    opacity: 1 !important;
+  }
+
+  /* De-rotate the vertical title text */
+  .build-accordion-item [style] {
+    transform: none !important;
+    writing-mode: horizontal-tb !important;
+    position: static !important;
+  }
+
+  /* ----------------------------------------------------------
+     HOME — IMPACT STATS GRID
+  ---------------------------------------------------------- */
+  .home-impact-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1.5rem !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .home-impact-grid > div {
+    padding: 0.75rem !important;
+  }
+
+  /* Impact number font size */
+  .home-impact-grid .text-radiant {
+    font-size: 1.75rem !important;
+  }
+
+  /* ----------------------------------------------------------
+     AWARDS HERO — 12-col grid → stacked
+  ---------------------------------------------------------- */
+  .awards-hero-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important;
+    padding-top: 80px !important;
+    padding-bottom: 40px !important;
+    min-height: auto !important;
+  }
+
+  .awards-hero-left,
+  .awards-hero-right {
+    width: 100% !important;
+    grid-column: unset !important;
+  }
+
+  .awards-hero-right {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+
+  /* ----------------------------------------------------------
+     EVENT TIMELINE — alternating 42% cards → full-width stack
+  ---------------------------------------------------------- */
+  .timeline-axis { display: none !important; }
+
+  .timeline-items { margin-top: 0 !important; }
+
+  .timeline-node-wrapper {
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    margin-bottom: 1.75rem !important;
+    position: static !important;
+  }
+
+  .timeline-card {
+    width: 100% !important;
+    text-align: left !important;
+    border-left: 3px solid #3b16fe !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    padding: 1.5rem !important;
+  }
+
+  /* Date chips — 2 per row */
+  .date-chips {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    max-width: 100% !important;
+    margin-top: 48px !important;
+    justify-content: flex-start !important;
+  }
+
+  .date-chips > * {
+    flex: 1 1 calc(50% - 0.5rem) !important;
+    min-width: 0 !important;
+    padding: 0.85rem 0.5rem !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ----------------------------------------------------------
+     RULES STACK — alternating 45% cards → full-width stack
+  ---------------------------------------------------------- */
+  .rules-row {
+    justify-content: flex-start !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .rules-filament { display: none !important; }
+
+  .rules-card {
+    width: 100% !important;
+    padding: 1.5rem !important;
+  }
+
+  /* ----------------------------------------------------------
+     BENEFITS BENTO GRID — asymmetric spans → 1-col
+  ---------------------------------------------------------- */
+  .bento-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.85rem !important;
+  }
+
+  .bento-cell {
+    width: 100% !important;
+    grid-column: unset !important;
+    min-height: 160px !important;
+  }
+
+  /* ----------------------------------------------------------
+     GRAND FINALE ACCORDION — 600px hover-only → stacked
+  ---------------------------------------------------------- */
+  .accordion-container {
+    flex-direction: column !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .accordion-station {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 180px !important;
+    padding: 1.75rem !important;
+    border-right: none !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Force content visible — no hover dependency on mobile */
+  .accordion-station > div {
+    opacity: 1 !important;
+    transform: none !important;
+    x: 0 !important;
+  }
+
+  /* ----------------------------------------------------------
+     CONTACT PAGE
+  ---------------------------------------------------------- */
+  .section--bg-light .container > div[style*="gridTemplateColumns"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+  }
+
+  .section--bg-light .container > div[style*="gridTemplateColumns"] > div {
+    width: 100% !important;
+    grid-column: unset !important;
+    min-height: unset !important;
+  }
+
+  /* ----------------------------------------------------------
+     ABOUT — LEADERSHIP GRID (3-col → 1-col)
+  ---------------------------------------------------------- */
+  [style*="minmax(300px, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ----------------------------------------------------------
+     VISION/MISSION — flex-wrap handles it, reduce gap
+  ---------------------------------------------------------- */
+  [style*="flex-wrap: 'wrap'"],
+  [style*="flexWrap: 'wrap'"] {
+    gap: 2.5rem !important;
+  }
+
+  /* ----------------------------------------------------------
+     LARGE FIXED WIDTHS — overflow sources
+  ---------------------------------------------------------- */
+  [style*="minmax(220px, 1fr)"] {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Clamp excessive section top padding */
+  .awards-hero-grid,
+  .section.gpu-accel {
+    padding-top: 80px !important;
+  }
+}
+
