@@ -38,9 +38,9 @@ const TechnicalIcon = ({ index }) => (
 );
 
 const useMobile = () => {
-  const [isMobile, React_useState] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
   React.useEffect(() => {
-    const checkMobile = () => React_useState(window.innerWidth <= 768);
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -68,10 +68,10 @@ const TimelineNode = ({ index, title, desc, isRight, isMobile }) => {
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         style={{ 
-          width: isMobile ? 'calc(100% - 60px)' : '42%', 
-          marginLeft: isMobile ? '60px' : '0',
+          width: isMobile ? 'calc(100% - 70px)' : '42%', 
+          marginLeft: isMobile ? '70px' : '0',
           textAlign: isMobile ? 'left' : (isRight ? 'left' : 'right'),
-          padding: isMobile ? '2rem 1.5rem' : '2.5rem',
+          padding: isMobile ? '1.5rem 1.25rem' : '2.5rem',
           background: '#ffffff',
           borderRadius: '12px',
           boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
@@ -82,8 +82,8 @@ const TimelineNode = ({ index, title, desc, isRight, isMobile }) => {
           zIndex: 1
         }}
       >
-        <h3 style={{ fontSize: isMobile ? '1.35rem' : '1.75rem', fontWeight: 900, marginBottom: '1rem', color: '#0f172a', whiteSpace: 'normal', wordBreak: 'break-word' }}>{title}</h3>
-        <p style={{ color: '#4A4A4A', lineHeight: 1.6, margin: 0, fontSize: isMobile ? '0.95rem' : '1rem', whiteSpace: 'normal', wordBreak: 'break-word' }}>{desc}</p>
+        <h3 style={{ fontSize: isMobile ? '1.25rem' : '1.75rem', fontWeight: 900, marginBottom: '0.75rem', color: '#0f172a', whiteSpace: 'normal', wordBreak: 'break-word' }}>{title}</h3>
+        <p style={{ color: '#4A4A4A', lineHeight: 1.6, margin: 0, fontSize: isMobile ? '0.9rem' : '1rem', whiteSpace: 'normal', wordBreak: 'break-word' }}>{desc}</p>
       </motion.div>
 
       {/* Center Station */}
